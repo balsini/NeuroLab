@@ -1,9 +1,15 @@
 #ifndef GENETICALGORITHM_H
 #define GENETICALGORITHM_H
 
+#include <QDebug>
+
 #include <vector>
 #include <iostream>
 #include <typeinfo>
+#include <functional>
+#include <chrono>
+
+#include "optimizationproblem.h"
 
 template <class Gene>
 class GeneticAlgorithm
@@ -18,13 +24,14 @@ class GeneticAlgorithm
     unsigned int _recombine;
     unsigned int _mutate;
 
-	public:
-    GeneticAlgorithm(unsigned int genes,
-                     unsigned int size,
+    OptimizationProblem<Gene> *_problem;
+
+  public:
+    GeneticAlgorithm(unsigned int size,
                      double survivors,
                      double identical,
-                     double recombine) {
-      _genes = genes;
+                     double recombine)
+    {
       _size = size;
       _survivors = size * survivors;
       _identical = _survivors * identical;
@@ -32,22 +39,48 @@ class GeneticAlgorithm
       _mutate = _survivors - _identical - _recombine;
 
       population.clear();
-      population.resize(size);
+    }
+
+    void reorder()
+    {
+      std::sort(population.begin(), population.end(),
+                [&](const Chromosome &a, const Chromosome &b) {
+        return _problem->evaluateSolution(a) < _problem->evaluateSolution(b);
+      });
+    }
+
+    void run()
+    {
+      qDebug() << "GeneticAlgorithm::run()";
+
+      population.resize(_size);
+      _genes = _problem->getSolutionSize();
       for (auto &p : population) {
         p.clear();
-        p.resize(genes);
+        p.resize(_genes);
+      }
+
+      computeAnySolution();
+
+      printInfo();
+      printPopulation();
+
+      for (unsigned int i=0; i<1; ++i) {
+        reorder();
+        printPopulation();
+
+        TODO
       }
     }
 
-    void randomize() {
-      for (auto i : population) {
-        for (auto j : i) {
-          j = 1;
-        }
-      }
+    void computeAnySolution()
+    {
+      for (auto &p : population)
+        p = _problem->getRandomSolution();
     }
 
-    void printInfo() {
+    void printInfo()
+    {
       std::cout << "Population:\t" << population.size() << std::endl;
       std::cout << "Gene Type:\t" << typeid(Gene).name() << std::endl;
       std::cout << "Genes:\t" << _genes << std::endl;
@@ -58,22 +91,27 @@ class GeneticAlgorithm
       std::cout << "----------------" << std::endl;
     }
 
-    void printSolution(const Chromosome &c) {
+    void printSolution(const Chromosome &c)
+    {
       for (auto v : c)
         std::cout << v << " ";
-      std::cout << std::endl;
     }
 
-    void printPopulation() {
+    void printPopulation()
+    {
       unsigned int counter = 0;
 
       std::cout << "Population:" << std::endl;
       for (auto p : population) {
         std::cout << counter++ << ")\t";
         printSolution(p);
+
+        std::cout << "\t ( " << _problem->evaluateSolution(p) << " )" << std::endl;
       }
       std::cout << "----------------" << std::endl;
     }
+
+    void setProblem(OptimizationProblem<Gene> *p) { _problem = p; }
 };
 
 #endif // GENETICALGORITHM_H

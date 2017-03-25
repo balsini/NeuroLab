@@ -35,6 +35,7 @@ HEADERS  += mainwindow.h \
     hopfield.h \
     matfun.h \
     geneticalgorithm.h \
-    tsp.h
+    tsp.h \
+    optimizationproblem.h
 
 FORMS    += mainwindow.ui
