@@ -28,12 +28,13 @@ SOURCES += main.cpp\
     kohonen.cpp \
     hopfield.cpp \
     matfun.cpp \
-    geneticalgorithm.cpp
+    tsp.cpp
 
 HEADERS  += mainwindow.h \
     kohonen.h \
     hopfield.h \
     matfun.h \
-    geneticalgorithm.h
+    geneticalgorithm.h \
+    tsp.h
 
 FORMS    += mainwindow.ui

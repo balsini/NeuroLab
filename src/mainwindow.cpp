@@ -3,7 +3,9 @@
 
 #include "matfun.h"
 #include "hopfield.h"
+#include "geneticalgorithm.h"
 
+#include "tsp.h"
 
 
 Hopfield h(16*16);
@@ -15,6 +17,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
+    TSP * tsp = new TSP(this);
+
+    ui->TSPView->setScene(tsp);
+
+    GeneticAlgorithm<int> g(10, 20, 0.8, 0.1, 0.8);
+    g.printInfo();
+    g.printPopulation();
 }
 
 MainWindow::~MainWindow()
