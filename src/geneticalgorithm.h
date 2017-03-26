@@ -23,8 +23,9 @@ class GeneticAlgorithm
     unsigned int _identical;
     unsigned int _recombine;
     unsigned int _mutate;
+    unsigned int _kill;
 
-    OptimizationProblem<Gene> *_problem;
+    GeneticOptimizationProblem<Gene> *_problem;
 
   public:
     GeneticAlgorithm(unsigned int size,
@@ -37,6 +38,7 @@ class GeneticAlgorithm
       _identical = _survivors * identical;
       _recombine = _survivors * recombine;
       _mutate = _survivors - _identical - _recombine;
+      _kill = _size - _survivors;
 
       population.clear();
     }
@@ -47,6 +49,43 @@ class GeneticAlgorithm
                 [&](const Chromosome &a, const Chromosome &b) {
         return _problem->evaluateSolution(a) < _problem->evaluateSolution(b);
       });
+    }
+
+    void removeWorst()
+    {
+      for (unsigned int i=0; i<_kill; ++i)
+        population.pop_back();
+    }
+
+    void crossover()
+    {
+      static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+      static std::default_random_engine generator(seed);
+      std::uniform_int_distribution<int> d1(0, _identical);
+      std::uniform_int_distribution<int> d2(0, _identical);
+
+      while (population.size() < _size) {
+        population.push_back(_problem->crossover(population[d1(generator)],
+                                                 population[d2(generator)]));
+      }
+    }
+
+    void mutation()
+    {
+      static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+      static std::default_random_engine generator(seed);
+      std::uniform_int_distribution<int> d(0, _genes - 1);
+      int p1, p2, x;
+
+      for (unsigned int i=_identical; i<_identical+_mutate; ++i) {
+        Chromosome &c = population[i];
+
+        p1 = d(generator);
+        p2 = d(generator);
+        x = c[p1];
+        c[p1] = c[p2];
+        c[p2] = x;
+      }
     }
 
     void run()
@@ -63,14 +102,22 @@ class GeneticAlgorithm
       computeAnySolution();
 
       printInfo();
-      printPopulation();
+      //printPopulation();
 
-      for (unsigned int i=0; i<1; ++i) {
+      for (unsigned int i=0; i<1000; ++i) {
         reorder();
-        printPopulation();
+        //printPopulation();
 
-        TODO
+        _problem->showSolution(population.front());
+
+        removeWorst();
+        crossover();
+        mutation();
+
+        //TODO
       }
+
+      printPopulation();
     }
 
     void computeAnySolution()
@@ -111,7 +158,7 @@ class GeneticAlgorithm
       std::cout << "----------------" << std::endl;
     }
 
-    void setProblem(OptimizationProblem<Gene> *p) { _problem = p; }
+    void setProblem(GeneticOptimizationProblem<Gene> *p) { _problem = p; }
 };
 
 #endif // GENETICALGORITHM_H

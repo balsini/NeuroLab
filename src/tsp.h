@@ -10,7 +10,7 @@
 
 typedef std::pair<int, int> Coordinate;
 
-class TSP : public QGraphicsScene, public OptimizationProblem<int>
+class TSP : public QGraphicsScene, public GeneticOptimizationProblem<int>
 {
     Q_OBJECT
 
@@ -46,6 +46,57 @@ class TSP : public QGraphicsScene, public OptimizationProblem<int>
       return _cost;
     }
 
+    void showSolution(const std::vector<int> &s)
+    {
+      int x, y;
+      std::vector<Coordinate> steps;
+
+      for (int p : s) {
+        x = targets[p]->x();
+        y = targets[p]->y();
+
+        steps.push_back(std::make_pair(x, y));
+      }
+      setPath(steps);
+    }
+
+    std::vector<int> crossover(const std::vector<int> &a, const std::vector<int> &b)
+    {
+      std::vector<int> ret;
+      std::vector<int> sub_sol;
+      static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+      static std::default_random_engine generator(seed);
+      std::uniform_int_distribution<int> d1(0, a.size() - 2);
+      unsigned int c1, c2;
+      unsigned int i;
+
+      c1 = d1(generator);
+
+      std::uniform_int_distribution<int> d2(c1 + 1, targets.size() - 1);
+
+      c2 = d2(generator);
+
+      for (i=c1; i<c2; ++i)
+        sub_sol.push_back(a[i]);
+
+      i = 0;
+      while (ret.size() < c1) {
+        if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
+          ret.push_back(b[i]);
+        ++i;
+      }
+
+      for (auto v : sub_sol)
+        ret.push_back(v);
+
+      while (ret.size() < a.size()) {
+        if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
+          ret.push_back(b[i]);
+        ++i;
+      }
+
+      return ret;
+    }
 
     std::vector<int> getRandomSolution() const
     {
