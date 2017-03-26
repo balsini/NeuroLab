@@ -16,10 +16,10 @@ class OptimizationProblem
 };
 
 template<class T>
-class GeneticOptimizationProblem : public OptimizationProblem<T>
+class GAOptimizationProblem : public OptimizationProblem<T>
 {
   protected:
-    GeneticOptimizationProblem() {}
+    GAOptimizationProblem() {}
   public:
     virtual unsigned int getSolutionSize() const = 0;
     virtual std::vector<T> getRandomSolution() const = 0;

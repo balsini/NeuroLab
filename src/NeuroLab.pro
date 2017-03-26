@@ -4,9 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core charts widgets gui
 
 TARGET = NeuroLab
 TEMPLATE = app
@@ -28,7 +26,8 @@ SOURCES += main.cpp\
     kohonen.cpp \
     hopfield.cpp \
     matfun.cpp \
-    tsp.cpp
+    tsp.cpp \
+    gaerrorplot.cpp
 
 HEADERS  += mainwindow.h \
     kohonen.h \
@@ -36,6 +35,7 @@ HEADERS  += mainwindow.h \
     matfun.h \
     geneticalgorithm.h \
     tsp.h \
-    optimizationproblem.h
+    optimizationproblem.h \
+    gaerrorplot.h
 
 FORMS    += mainwindow.ui

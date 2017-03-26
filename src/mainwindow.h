@@ -26,6 +26,10 @@ class MainWindow : public QMainWindow
         void on_hopfieldLoadImage_clicked();
         void on_pushButton_clicked();
 
+        void on_GA_identical_valueChanged(double);
+
+        void on_GA_recombine_valueChanged(double);
+
   private:
 		Ui::MainWindow *ui;
 };

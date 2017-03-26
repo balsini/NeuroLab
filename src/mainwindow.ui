@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>594</width>
-    <height>404</height>
+    <width>586</width>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,115 +26,145 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <layout class="QFormLayout" name="formLayout">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetMinimumSize</enum>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLineEdit" name="lineEdit">
-            <property name="text">
-             <string>100</string>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QFormLayout" name="GA_form">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetMinimumSize</enum>
             </property>
-           </widget>
+            <item row="1" column="0">
+             <widget class="QSpinBox" name="GA_epochs">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>999999</number>
+              </property>
+              <property name="value">
+               <number>1000</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Epochs</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QSpinBox" name="GA_population">
+              <property name="minimum">
+               <number>2</number>
+              </property>
+              <property name="maximum">
+               <number>999999</number>
+              </property>
+              <property name="value">
+               <number>100</number>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Population</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QDoubleSpinBox" name="GA_survivors">
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>75.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Survivors (%)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QDoubleSpinBox" name="GA_identical">
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Identical (%)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QDoubleSpinBox" name="GA_recombine">
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Recombine (%)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QDoubleSpinBox" name="GA_mutate">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Mutate (%)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0">
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Run</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="0">
+             <widget class="QDoubleSpinBox" name="GA_cost">
+              <property name="maximum">
+               <double>999999.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Solution Cost</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Population</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox">
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>75.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Survivors (%)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>5.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Identical (%)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Recombine (%)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximum">
-             <double>100.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Mutate (%)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QPushButton" name="pushButton">
-            <property name="text">
-             <string>Run</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QComboBox" name="comboBox"/>
-          </item>
-          <item row="8" column="1">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Cost</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QLineEdit" name="lineEdit_2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
+          <item>
+           <widget class="GAErrorPlot" name="GA_errorPlot"/>
           </item>
          </layout>
         </item>
@@ -149,8 +179,6 @@
              <widget class="QGraphicsView" name="TSPView"/>
             </item>
            </layout>
-           <zorder>formLayoutWidget</zorder>
-           <zorder>TSPView</zorder>
           </widget>
          </widget>
         </item>
@@ -214,7 +242,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>594</width>
+     <width>586</width>
      <height>20</height>
     </rect>
    </property>
@@ -230,6 +258,13 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GAErrorPlot</class>
+   <extends>QGraphicsView</extends>
+   <header>gaerrorplot.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

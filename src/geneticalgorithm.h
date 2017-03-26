@@ -10,6 +10,7 @@
 #include <chrono>
 
 #include "optimizationproblem.h"
+#include "gaerrorplot.h"
 
 template <class Gene>
 class GeneticAlgorithm
@@ -24,15 +25,19 @@ class GeneticAlgorithm
     unsigned int _recombine;
     unsigned int _mutate;
     unsigned int _kill;
+    unsigned int _epochs;
 
-    GeneticOptimizationProblem<Gene> *_problem;
+    GAOptimizationProblem<Gene> *_problem;
+    GAErrorPlot *_plot;
 
   public:
-    GeneticAlgorithm(unsigned int size,
+    GeneticAlgorithm(unsigned int epochs,
+                     unsigned int size,
                      double survivors,
                      double identical,
                      double recombine)
     {
+      _epochs = epochs;
       _size = size;
       _survivors = size * survivors;
       _identical = _survivors * identical;
@@ -88,12 +93,16 @@ class GeneticAlgorithm
       }
     }
 
-    void run()
+    double run()
     {
       qDebug() << "GeneticAlgorithm::run()";
 
       population.resize(_size);
       _genes = _problem->getSolutionSize();
+
+      if (_genes < 2)
+        throw(std::string("Problem size too small"));
+
       for (auto &p : population) {
         p.clear();
         p.resize(_genes);
@@ -104,7 +113,9 @@ class GeneticAlgorithm
       printInfo();
       //printPopulation();
 
-      for (unsigned int i=0; i<10000; ++i) {
+      for (unsigned int i=0; i<_epochs; ++i) {
+        _plot->addEpochMinValue(_problem->evaluateSolution(population.front()));
+
         removeWorst();
         crossover();
         mutation();
@@ -112,7 +123,10 @@ class GeneticAlgorithm
         reorder();
       }
       _problem->showSolution(population.front());
-      printPopulation();
+      _plot->plot();
+      //printPopulation();
+
+      return _problem->evaluateSolution(population.front());
     }
 
     void computeAnySolution()
@@ -153,7 +167,8 @@ class GeneticAlgorithm
       std::cout << "----------------" << std::endl;
     }
 
-    void setProblem(GeneticOptimizationProblem<Gene> *p) { _problem = p; }
+    void setProblem(GAOptimizationProblem<Gene> *p) { _problem = p; }
+    void setErrorPlot(GAErrorPlot *p) { _plot = p; }
 };
 
 #endif // GENETICALGORITHM_H

@@ -10,7 +10,7 @@
 
 typedef std::pair<int, int> Coordinate;
 
-class TSP : public QGraphicsScene, public GeneticOptimizationProblem<int>
+class TSP : public QGraphicsScene, public GAOptimizationProblem<int>
 {
     Q_OBJECT
 
