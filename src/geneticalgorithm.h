@@ -104,19 +104,14 @@ class GeneticAlgorithm
       printInfo();
       //printPopulation();
 
-      for (unsigned int i=0; i<1000; ++i) {
-        reorder();
-        //printPopulation();
-
-        _problem->showSolution(population.front());
-
+      for (unsigned int i=0; i<10000; ++i) {
         removeWorst();
         crossover();
         mutation();
 
-        //TODO
+        reorder();
       }
-
+      _problem->showSolution(population.front());
       printPopulation();
     }
 

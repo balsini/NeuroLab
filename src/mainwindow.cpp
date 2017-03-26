@@ -22,9 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
   ui->TSPView->setScene(tsp);
 
-  g = new GeneticAlgorithm<int>(100,
+  g = new GeneticAlgorithm<int>(500,
                                 0.8,
-                                0.1,
+                                0.05,
                                 0.8);
   g->setProblem(tsp);
 }
