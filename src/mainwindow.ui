@@ -138,7 +138,7 @@
              </widget>
             </item>
             <item row="8" column="0">
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="GA_run">
               <property name="text">
                <string>Run</string>
               </property>
@@ -146,6 +146,9 @@
             </item>
             <item row="9" column="0">
              <widget class="QDoubleSpinBox" name="GA_cost">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="maximum">
                <double>999999.000000000000000</double>
               </property>
@@ -170,6 +173,9 @@
         </item>
         <item>
          <widget class="QTabWidget" name="tabWidget_2">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
             <string>TSP</string>
@@ -177,6 +183,16 @@
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
              <widget class="QGraphicsView" name="TSPView"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>Mem Alloc</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <widget class="QGraphicsView" name="MEMALLOCView"/>
             </item>
            </layout>
           </widget>
@@ -243,7 +259,7 @@
      <x>0</x>
      <y>0</y>
      <width>586</width>
-     <height>20</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>

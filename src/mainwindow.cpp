@@ -49,7 +49,23 @@ void MainWindow::on_hopfieldLoadImage_clicked()
   h.loadData("/home/alessio/git/NeuroLab/data/hopfield_00.txt");
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_GA_identical_valueChanged(double v)
+{
+  ui->GA_mutate->setValue(100 - v - ui->GA_recombine->value());
+  if (ui->GA_mutate->value() == 0) {
+    ui->GA_recombine->setValue(100 - v);
+  }
+}
+
+void MainWindow::on_GA_recombine_valueChanged(double v)
+{
+  ui->GA_mutate->setValue(100 - ui->GA_identical->value() - v);
+  if (ui->GA_mutate->value() == 0) {
+    ui->GA_identical->setValue(100 - v);
+  }
+}
+
+void MainWindow::on_GA_run_clicked()
 {
   //auto p = tsp->getTargets();
   //tsp->setPath(g->randomize());
@@ -70,20 +86,4 @@ void MainWindow::on_pushButton_clicked()
   }
 
   delete g;
-}
-
-void MainWindow::on_GA_identical_valueChanged(double v)
-{
-  ui->GA_mutate->setValue(100 - v - ui->GA_recombine->value());
-  if (ui->GA_mutate->value() == 0) {
-    ui->GA_recombine->setValue(100 - v);
-  }
-}
-
-void MainWindow::on_GA_recombine_valueChanged(double v)
-{
-  ui->GA_mutate->setValue(100 - ui->GA_identical->value() - v);
-  if (ui->GA_mutate->value() == 0) {
-    ui->GA_identical->setValue(100 - v);
-  }
 }

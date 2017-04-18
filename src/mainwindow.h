@@ -24,11 +24,9 @@ class MainWindow : public QMainWindow
 		void on_hopfieldStep_clicked();
 		void on_hopfieldAddNoise_clicked();
         void on_hopfieldLoadImage_clicked();
-        void on_pushButton_clicked();
-
         void on_GA_identical_valueChanged(double);
-
         void on_GA_recombine_valueChanged(double);
+        void on_GA_run_clicked();
 
   private:
 		Ui::MainWindow *ui;
