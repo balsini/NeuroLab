@@ -16,10 +16,11 @@ GAErrorPlot::GAErrorPlot(QWidget *parent)
   chart->legend()->setVisible(false);
   //chart->legend()->setAlignment(Qt::AlignBottom);
 
-  setRenderHint(QPainter::Antialiasing);
+  //setRenderHint(QPainter::Antialiasing);
 
   this->setChart(chart);
 
+  chart->addSeries(&_cost);
 }
 
 
@@ -31,8 +32,6 @@ void GAErrorPlot::addEpochMinValue(double v)
 void GAErrorPlot::plot()
 {
   int max, min;
-
-  chart->addSeries(&_cost);
 
   //QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
   //axisX->setCategories(categories);

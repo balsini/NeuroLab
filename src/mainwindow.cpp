@@ -72,6 +72,8 @@ void MainWindow::on_GA_run_clicked()
   //auto p = tsp->getTargets();
   //tsp->setPath(g->randomize());
 
+  ui->GA_run->setEnabled(false);
+
   g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
                                 ui->GA_population->text().toInt(),
                                 ui->GA_survivors->value() / 100.0,
@@ -93,9 +95,8 @@ void MainWindow::on_GA_run_clicked()
   }
 
   ui->GA_errorPlot->clear();
-  //g->setErrorPlot(ui->GA_errorPlot);
 
-  GA_Thread *workerThread = new GA_Thread;
+  workerThread = new GA_Thread;
   workerThread->setGA(g);
   connect(workerThread, &GA_Thread::resultReady, this, &MainWindow::GA_result_ready);
   connect(workerThread, &GA_Thread::newBestResult, this, &MainWindow::GA_new_best);
@@ -116,4 +117,7 @@ void MainWindow::GA_result_ready(GeneticAlgorithm *g)
   g->showSolution();
 
   delete g;
+  delete workerThread;
+
+  ui->GA_run->setEnabled(true);
 }

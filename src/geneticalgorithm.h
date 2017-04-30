@@ -12,7 +12,6 @@
 #include <QThread>
 
 #include "optimizationproblem.h"
-#include "gaerrorplot.h"
 
 class GeneticAlgorithm
 {
@@ -50,6 +49,7 @@ class GeneticAlgorithm
     virtual void mutation() = 0;
     virtual void computeAnySolution() = 0;
     virtual void showSolution() = 0;
+    virtual void clear() = 0;
     virtual void printInfo() {}
     virtual void printPopulation() {}
 };
@@ -70,6 +70,10 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       GeneticAlgorithm(epochs, size, survivors, identical, recombine)
     {}
     void setProblem(GAOptimizationProblem<Gene> *p) { _problem = p; }
+    void clear()
+    {
+      population.clear();
+    }
     void reorder()
     {
       std::sort(population.begin(), population.end(),

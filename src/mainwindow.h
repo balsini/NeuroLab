@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
     TSP *tsp;
     MemoryAllocation *memory_allocation;
     GeneticAlgorithm *g;
+    GA_Thread *workerThread;
 
   public:
     explicit MainWindow(QWidget *parent = nullptr);

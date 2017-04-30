@@ -60,7 +60,7 @@ std::vector<Coordinate> TSP::getTargets()
 
 void TSP::setPath(const std::vector<Coordinate> &s)
 {
-  for (auto i : steps)
+  for (auto &i : steps)
     removeItem(i);
   steps.clear();
 
