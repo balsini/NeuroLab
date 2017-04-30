@@ -17,10 +17,10 @@ class MainWindow : public QMainWindow
 
     TSP *tsp;
     MemoryAllocation *memory_allocation;
-    GeneticAlgorithm<int> *g;
+    GeneticAlgorithm *g;
 
   public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
   private slots:
@@ -30,6 +30,8 @@ class MainWindow : public QMainWindow
     void on_GA_identical_valueChanged(double);
     void on_GA_recombine_valueChanged(double);
     void on_GA_run_clicked();
+    void GA_new_best(GeneticAlgorithm *, double);
+    void GA_result_ready(GeneticAlgorithm *);
 
   private:
     Ui::MainWindow *ui;

@@ -1,10 +1,11 @@
 #ifndef TSP_H
 #define TSP_H
 
-#include <vector>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+
 #include <chrono>
+#include <vector>
 
 #include "optimizationproblem.h"
 

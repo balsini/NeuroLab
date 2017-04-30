@@ -10,7 +10,6 @@
 
 #include <QDebug>
 
-
 Hopfield h(16*16);
 
 
@@ -73,7 +72,7 @@ void MainWindow::on_GA_run_clicked()
   //auto p = tsp->getTargets();
   //tsp->setPath(g->randomize());
 
-  g = new GeneticAlgorithm<int>(ui->GA_epochs->text().toInt(),
+  g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
                                 ui->GA_population->text().toInt(),
                                 ui->GA_survivors->value() / 100.0,
                                 ui->GA_identical->value() / 100.0,
@@ -83,24 +82,38 @@ void MainWindow::on_GA_run_clicked()
 
   switch (ui->geneticTab->currentIndex()) {
     case 0:
-      g->setProblem(tsp);
+      dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
       break;
     case 1:
-      g->setProblem(memory_allocation);
+      dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(memory_allocation);
       break;
     default:
-      goto clear_and_exit;
+      delete g;
+      return;
   }
 
-
-  g->setErrorPlot(ui->GA_errorPlot);
   ui->GA_errorPlot->clear();
+  //g->setErrorPlot(ui->GA_errorPlot);
 
-  try {
-    ui->GA_cost->setValue(g->run());
-  } catch (std::string e) {
-    std::cerr << e << std::endl;
-  }
-clear_and_exit:
+  GA_Thread *workerThread = new GA_Thread;
+  workerThread->setGA(g);
+  connect(workerThread, &GA_Thread::resultReady, this, &MainWindow::GA_result_ready);
+  connect(workerThread, &GA_Thread::newBestResult, this, &MainWindow::GA_new_best);
+  connect(workerThread, &GA_Thread::finished, workerThread, &QObject::deleteLater);
+  workerThread->start();
+}
+
+void MainWindow::GA_new_best(GeneticAlgorithm *g, double d)
+{
+  g->showSolution();
+  ui->GA_cost->setValue(d);
+  ui->GA_errorPlot->addEpochMinValue(d);
+  ui->GA_errorPlot->plot();
+}
+
+void MainWindow::GA_result_ready(GeneticAlgorithm *g)
+{
+  g->showSolution();
+
   delete g;
 }

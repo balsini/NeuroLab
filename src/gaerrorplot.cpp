@@ -11,7 +11,7 @@ GAErrorPlot::GAErrorPlot(QWidget *parent)
   chart = new QChart();
 
   //chart->setTitle("Cost");
-  chart->setAnimationOptions(QChart::SeriesAnimations);
+  //chart->setAnimationOptions(QChart::SeriesAnimations);
 
   chart->legend()->setVisible(false);
   //chart->legend()->setAlignment(Qt::AlignBottom);
