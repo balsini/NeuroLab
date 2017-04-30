@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
   tsp = new TSP(this);
   ui->TSPView->setScene(tsp);
 
+  memory_allocation = new MemoryAllocation(this);
+  ui->MemAllocView->setScene(memory_allocation);
+
   ui->GA_identical->setValue(5);
   ui->GA_recombine->setValue(20);
 }
@@ -75,7 +78,21 @@ void MainWindow::on_GA_run_clicked()
                                 ui->GA_survivors->value() / 100.0,
                                 ui->GA_identical->value() / 100.0,
                                 ui->GA_recombine->value() / 100.0);
-  g->setProblem(tsp);
+
+  qDebug() << "Current tab index: " << ui->geneticTab->currentIndex();
+
+  switch (ui->geneticTab->currentIndex()) {
+    case 0:
+      g->setProblem(tsp);
+      break;
+    case 1:
+      g->setProblem(memory_allocation);
+      break;
+    default:
+      goto clear_and_exit;
+  }
+
+
   g->setErrorPlot(ui->GA_errorPlot);
   ui->GA_errorPlot->clear();
 
@@ -84,6 +101,6 @@ void MainWindow::on_GA_run_clicked()
   } catch (std::string e) {
     std::cerr << e << std::endl;
   }
-
+clear_and_exit:
   delete g;
 }

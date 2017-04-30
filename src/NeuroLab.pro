@@ -26,16 +26,20 @@ SOURCES += main.cpp\
     kohonen.cpp \
     hopfield.cpp \
     matfun.cpp \
-    tsp.cpp \
-    gaerrorplot.cpp
+    gaerrorplot.cpp \
+    tsp/tsp.cpp \
+    memory_allocation/memory_allocation.cpp \
+    memory_allocation/memoryallocationdisplay.cpp
 
 HEADERS  += mainwindow.h \
     kohonen.h \
     hopfield.h \
     matfun.h \
     geneticalgorithm.h \
-    tsp.h \
+    gaerrorplot.h \
     optimizationproblem.h \
-    gaerrorplot.h
+    tsp/tsp.h \
+    memory_allocation/memory_allocation.h \
+    memory_allocation/memoryallocationdisplay.h
 
 FORMS    += mainwindow.ui

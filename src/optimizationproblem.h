@@ -21,9 +21,6 @@ class GAOptimizationProblem : public OptimizationProblem<T>
   protected:
     GAOptimizationProblem() {}
   public:
-    virtual unsigned int getSolutionSize() const = 0;
-    virtual std::vector<T> getRandomSolution() const = 0;
-    virtual double evaluateSolution(const std::vector<T> &) const = 0;
     virtual std::vector<int> crossover(const std::vector<T> &,
                                        const std::vector<T> &) = 0;
 };

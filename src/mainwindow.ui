@@ -172,7 +172,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget_2">
+         <widget class="QTabWidget" name="geneticTab">
           <property name="currentIndex">
            <number>1</number>
           </property>
@@ -182,7 +182,20 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
-             <widget class="QGraphicsView" name="TSPView"/>
+             <widget class="QGraphicsView" name="TSPView">
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="backgroundBrush">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -192,7 +205,112 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="0" column="0">
-             <widget class="QGraphicsView" name="MEMALLOCView"/>
+             <widget class="MemoryAllocationDisplay" name="MemAllocView">
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="backgroundBrush">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QRadioButton" name="radioButton_2">
+                  <property name="text">
+                   <string>RAM View</string>
+                  </property>
+                  <property name="checked">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_2">
+                  <item>
+                   <property name="text">
+                    <string>Local RAM 0</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Local RAM 1</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Local RAM 2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Local RAM 3</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Global RAM</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QRadioButton" name="radioButton">
+                  <property name="text">
+                   <string>Core View</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox">
+                  <item>
+                   <property name="text">
+                    <string>Core 0</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 1</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 3</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QRadioButton" name="radioButton_3">
+              <property name="text">
+               <string>Global View</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -259,17 +377,9 @@
      <x>0</x>
      <y>0</y>
      <width>586</width>
-     <height>18</height>
+     <height>23</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
@@ -279,6 +389,11 @@
    <class>GAErrorPlot</class>
    <extends>QGraphicsView</extends>
    <header>gaerrorplot.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MemoryAllocationDisplay</class>
+   <extends>QGraphicsView</extends>
+   <header>memory_allocation/memoryallocationdisplay.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
