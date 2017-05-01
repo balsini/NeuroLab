@@ -31,6 +31,7 @@ class MainWindow : public QMainWindow
     void on_GA_identical_valueChanged(double);
     void on_GA_recombine_valueChanged(double);
     void on_GA_run_clicked();
+    void on_GA_stop_clicked();
     void GA_new_best(GeneticAlgorithm *, double);
     void GA_result_ready(GeneticAlgorithm *);
 

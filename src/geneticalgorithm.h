@@ -192,6 +192,7 @@ class GA_Thread : public QThread
 {
     Q_OBJECT
 
+    bool go;
     GeneticAlgorithm *ga;
 
   public:
@@ -199,10 +200,15 @@ class GA_Thread : public QThread
     {
       ga = g;
     }
+    void stop()
+    {
+      go = false;
+    }
     void run() override {
+      go = true;
       try {
         emit newBestResult(ga, ga->run_init());
-        for (unsigned int i=1; i<ga->get_epochs(); ++i) {
+        for (unsigned int i=1; go && i<ga->get_epochs(); ++i) {
           emit newBestResult(ga, ga->run_step());
         }
       } catch (std::string e) {

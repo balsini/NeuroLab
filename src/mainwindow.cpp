@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   ui->setupUi(this);
 
+  g = nullptr;
   tsp = new TSP(this);
   ui->TSPView->setScene(tsp);
 
@@ -73,7 +74,12 @@ void MainWindow::on_GA_run_clicked()
   //tsp->setPath(g->randomize());
 
   ui->GA_run->setEnabled(false);
+  ui->GA_stop->setEnabled(true);
 
+  if (g) {
+    delete g;
+    g = nullptr;
+  }
   g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
                                 ui->GA_population->text().toInt(),
                                 ui->GA_survivors->value() / 100.0,
@@ -91,15 +97,17 @@ void MainWindow::on_GA_run_clicked()
       break;
     default:
       delete g;
+      g = nullptr;
       return;
   }
 
+  ui->TSPView->setEnabled(false);
   ui->GA_errorPlot->clear();
 
   workerThread = new GA_Thread;
   workerThread->setGA(g);
   connect(workerThread, &GA_Thread::resultReady, this, &MainWindow::GA_result_ready);
-  connect(workerThread, &GA_Thread::newBestResult, this, &MainWindow::GA_new_best);
+  connect(workerThread, &GA_Thread::newBestResult, this, &MainWindow::GA_new_best, Qt::BlockingQueuedConnection);
   connect(workerThread, &GA_Thread::finished, workerThread, &QObject::deleteLater);
   workerThread->start();
 }
@@ -116,8 +124,14 @@ void MainWindow::GA_result_ready(GeneticAlgorithm *g)
 {
   g->showSolution();
 
-  delete g;
   delete workerThread;
 
+  ui->TSPView->setEnabled(true);
+  ui->GA_stop->setEnabled(false);
   ui->GA_run->setEnabled(true);
+}
+
+void MainWindow::on_GA_stop_clicked()
+{
+    workerThread->stop();
 }
