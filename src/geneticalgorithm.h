@@ -40,14 +40,15 @@ class GeneticAlgorithm
       _kill(_size - _survivors) {}
     virtual ~GeneticAlgorithm() {}
 
-    virtual double run_init() = 0;
-    virtual double run_step() = 0;
+    virtual std::pair<double, double> run_init() = 0;
+    virtual std::pair<double, double> run_step() = 0;
     unsigned int get_epochs() const { return _epochs; }
     virtual void reorder() = 0;
     virtual void removeWorst() = 0;
     virtual void crossover() = 0;
     virtual void mutation() = 0;
     virtual void computeAnySolution() = 0;
+    virtual double evaluate() = 0;
     virtual void showSolution() = 0;
     virtual void clear() = 0;
     virtual void printInfo() {}
@@ -58,7 +59,7 @@ template <class Gene>
 class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 {
     typedef std::vector<Gene> Chromosome;
-    std::vector<Chromosome> population;
+    std::vector<std::pair<Chromosome, double>> population;
     GAOptimizationProblem<Gene> *_problem;
 
   public:
@@ -74,11 +75,22 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
     {
       population.clear();
     }
+    double evaluate()
+    {
+      double sum = 0.0;
+
+      for (auto &p : population) {
+        p.second = _problem->evaluateSolution(p.first);
+        sum += p.second / population.size();
+      }
+
+      return sum;
+    }
     void reorder()
     {
       std::sort(population.begin(), population.end(),
-                [&](const Chromosome &a, const Chromosome &b) {
-        return _problem->evaluateSolution(a) < _problem->evaluateSolution(b);
+                [&](const std::pair<Chromosome, double> &a, const std::pair<Chromosome, double> &b) {
+        return a.second < b.second;
       });
     }
     void removeWorst()
@@ -94,8 +106,9 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       std::uniform_int_distribution<int> d2(0, _identical);
 
       while (population.size() < _size) {
-        population.push_back(_problem->crossover(population[d1(generator)],
-                             population[d2(generator)]));
+        population.push_back(std::make_pair(_problem->crossover(population[d1(generator)].first,
+                                            population[d2(generator)].first),
+            0.0));
       }
     }
     void mutation()
@@ -106,7 +119,7 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       int p1, p2, x;
 
       for (unsigned int i=_identical; i<_identical+_mutate; ++i) {
-        Chromosome &c = population[i];
+        Chromosome &c = population[i].first;
 
         p1 = d(generator);
         p2 = d(generator);
@@ -115,8 +128,10 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
         c[p2] = x;
       }
     }
-    double run_init()
+    std::pair<double, double> run_init()
     {
+      double mean;
+
       population.resize(_size);
       _genes = _problem->getSolutionSize();
 
@@ -124,37 +139,41 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
         throw(std::string("Problem size too small"));
 
       for (auto &p : population) {
-        p.clear();
-        p.resize(_genes);
+        p.first.clear();
+        p.first.resize(_genes);
       }
 
       printInfo();
 
       computeAnySolution();
+      mean = evaluate();
       reorder();
 
-      return _problem->evaluateSolution(population.front());
+      return std::make_pair(population.front().second, mean);
     }
 
-    double run_step()
+    std::pair<double, double> run_step()
     {
+      double mean;
+
       removeWorst();
       crossover();
       mutation();
 
+      mean = evaluate();
       reorder();
 
-      return _problem->evaluateSolution(population.front());
+      return std::make_pair(population.front().second, mean);
     }
 
 void computeAnySolution()
 {
   for (auto &p : population)
-    p = _problem->getRandomSolution();
+    p.first = _problem->getRandomSolution();
 }
 void showSolution()
 {
-  _problem->showSolution(population.front());
+  _problem->showSolution(population.front().first);
 }
 void printInfo()
 {
@@ -169,7 +188,7 @@ void printInfo()
 }
 void printSolution(const Chromosome &c)
 {
-  for (auto v : c)
+  for (auto const &v : c)
     std::cout << v << " ";
 }
 
@@ -178,11 +197,11 @@ void printPopulation()
   unsigned int counter = 0;
 
   std::cout << "Population:" << std::endl;
-  for (auto p : population) {
+  for (auto const &p : population) {
     std::cout << counter++ << ")\t";
-    printSolution(p);
+    printSolution(p.first);
 
-    std::cout << "\t ( " << _problem->evaluateSolution(p) << " )" << std::endl;
+    std::cout << "\t ( " << _problem->evaluateSolution(p.first) << " )" << std::endl;
   }
   std::cout << "----------------" << std::endl;
 }
@@ -218,7 +237,7 @@ class GA_Thread : public QThread
     }
   signals:
     void resultReady(GeneticAlgorithm *g);
-    void newBestResult(GeneticAlgorithm *g, double);
+    void newBestResult(GeneticAlgorithm *g, std::pair<double, double>);
 };
 
 #endif // GENETICALGORITHM_H

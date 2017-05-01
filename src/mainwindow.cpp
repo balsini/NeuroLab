@@ -112,11 +112,11 @@ void MainWindow::on_GA_run_clicked()
   workerThread->start();
 }
 
-void MainWindow::GA_new_best(GeneticAlgorithm *g, double d)
+void MainWindow::GA_new_best(GeneticAlgorithm *g, std::pair<double, double> v)
 {
   g->showSolution();
-  ui->GA_cost->setValue(d);
-  ui->GA_errorPlot->addEpochMinValue(d);
+  ui->GA_cost->setValue(v.first);
+  ui->GA_errorPlot->addEpochValues(v.first, v.second);
   ui->GA_errorPlot->plot();
 }
 

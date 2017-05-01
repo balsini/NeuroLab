@@ -21,13 +21,17 @@ GAErrorPlot::GAErrorPlot(QWidget *parent)
   this->setChart(chart);
 
   chart->addSeries(&_cost);
+  chart->addSeries(&_mean);
 }
 
 
-void GAErrorPlot::addEpochMinValue(double v)
+void GAErrorPlot::addEpochValues(double min, double mean)
 {
-  _cost.append(_epoch++, v);
+  _cost.append(_epoch, min);
+  _mean.append(_epoch, mean);
+  _epoch++;
 }
+
 
 void GAErrorPlot::plot()
 {
