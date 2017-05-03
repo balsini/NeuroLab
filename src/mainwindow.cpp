@@ -28,8 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
   memory_allocation = new MemoryAllocation(this);
   ui->MemAllocView->setScene(memory_allocation);
 
-  ui->GA_identical->setValue(5);
-  ui->GA_recombine->setValue(20);
+  on_GA_identical_valueChanged(ui->GA_identical->value());
 }
 
 MainWindow::~MainWindow()
@@ -120,7 +119,7 @@ void MainWindow::on_GA_run_clicked()
 void MainWindow::GA_new_best(GeneticAlgorithm *g, std::pair<double, double> v)
 {
   g->showSolution();
-  ui->GA_cost->setValue(v.first);
+  ui->GA_cost->setText(QString::number(v.first, 'g', 12));
   ui->GA_errorPlot->addEpochValues(v.first, v.second);
   ui->GA_errorPlot->plot();
 }
