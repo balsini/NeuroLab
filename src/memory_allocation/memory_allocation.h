@@ -24,8 +24,6 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     uint8_t RAM;
     int core;
 
-    void refreshView();
-
   public:
     MemoryAllocation(QObject *parent = Q_NULLPTR);
     unsigned int getSolutionSize() const { return get_genes_size_waters_GA(); }
@@ -37,9 +35,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     void setView(ViewKind v);
     void setRAM(uint8_t r);
     void setCore(int c);
-
-  public slots:
-    void resizeEvent(int w, int h);
+    void refreshView();
 };
 
 #endif // MEMORY_ALLOCATION_H

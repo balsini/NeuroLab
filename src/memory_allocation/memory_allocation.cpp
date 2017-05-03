@@ -171,28 +171,6 @@ std::vector<Label> MemoryAllocation::getRandomSolution() const
   return getRandomSolution_waters_GA();
 }
 
-void MemoryAllocation::resizeEvent(int w, int h)
-{
-  /*
-  qDebug() << "sceneRectChanged(const QRectF &rect)" << event->size();
-
-  qreal rect_width = event->size().width() / 100.0;
-  qreal rect_height = event->size().height() / 100.0;
-
-  QGraphicsItem *to_add;
-
-  this->clear();
-
-  for (unsigned int i=0; i<100; ++i) {
-    for (unsigned int j=0; j<100; ++j) {
-      to_add = addRect(0, 0, rect_width, rect_height);
-
-      to_add->setPos(j * rect_width, i * rect_height);
-    }
-  }
-  */
-}
-
 void MemoryAllocation::setView(ViewKind v)
 {
   viewKind = v;

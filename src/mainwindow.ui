@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>529</width>
+    <width>574</width>
     <height>460</height>
    </rect>
   </property>
@@ -241,13 +241,6 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <widget class="QPushButton" name="MemAllocLegend">
-                  <property name="text">
-                   <string>Legend</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
                  <widget class="QRadioButton" name="radioButton_3">
                   <property name="text">
                    <string>Global View</string>
@@ -480,7 +473,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>529</width>
+     <width>574</width>
      <height>23</height>
     </rect>
    </property>
@@ -554,22 +547,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>507</x>
-     <y>259</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>MemAllocLegend</sender>
-   <signal>clicked()</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>showLegend()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>397</x>
-     <y>283</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>545</x>
      <y>259</y>
     </hint>
    </hints>
