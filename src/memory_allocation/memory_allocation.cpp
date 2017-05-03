@@ -20,7 +20,9 @@ static QBrush brush;
 
 MemoryAllocation::MemoryAllocation(QObject *parent) :
   QGraphicsScene(parent),
-  viewKind(GLOBAL_RAM_VIEW)
+  viewKind(GLOBAL_RAM_VIEW),
+  RAM(LRAM_0),
+  core(0)
 {
   brush.setStyle(Qt::SolidPattern);
   brush.setColor(Qt::red);
@@ -102,7 +104,6 @@ void MemoryAllocation::refreshView()
       break;
 
     case CPU_USED_BY_RAM_VIEW:
-      /*
       for (unsigned int i=0; i<rows; ++i) {
         for (unsigned int j=0; j<columns; ++j) {
           if (counter >= lastSolution.size())
@@ -114,27 +115,24 @@ void MemoryAllocation::refreshView()
 
           //color.setRgbF(1.0, 0, 0);
 
-          switch(lastSolution.at(counter).ram) {
-            case 	LRAM_0:
-              color.setRgbF(1, 1, 0);
-              break;
-            case 	LRAM_1:
-              color.setRgbF(1, 0, 1);
-              break;
-            case 	LRAM_2:
-              color.setRgbF(0, 0, 1);
-              break;
-            case 	LRAM_3:
-              color.setRgbF(0, 1, 0);
-              break;
-            case 	GRAM:
-              color.setRgbF(1, 0, 0);
-              break;
-            default:
-              color.setRgbF(0, 0, 0);
-              break;
+          if (lastSolution.at(counter).ram == this->RAM) {
+            switch (lastSolution.at(counter).used_by_CPU) {
+              case 0:
+                color.setRgbF(1, 1, 0);
+                break;
+              case 2:
+                color.setRgbF(1, 0, 0);
+                break;
+              case 4:
+                color.setRgbF(1, 0, 1);
+                break;
+              case 8:
+                color.setRgbF(0, 1, 0);
+                break;
+            }
+          } else {
+            color.setRgbF(0, 0, 0);
           }
-
 
           brush.setColor(color);
 
@@ -145,7 +143,6 @@ void MemoryAllocation::refreshView()
           ++counter;
         }
       }
-      */
       break;
 
     default:
@@ -195,5 +192,17 @@ void MemoryAllocation::resizeEvent(int w, int h)
 void MemoryAllocation::setView(ViewKind v)
 {
   viewKind = v;
+  refreshView();
+}
+
+void MemoryAllocation::setRAM(int r)
+{
+  this->RAM = static_cast <RAM_LOC>(1 << r);
+  refreshView();
+}
+
+void MemoryAllocation::setCore(int c)
+{
+  this->core = c;
   refreshView();
 }

@@ -33,8 +33,8 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     std::vector<Label> crossover(const std::vector<Label> &a, const std::vector<Label> &b);
     std::vector<Label> getRandomSolution() const;
     void setView(ViewKind v);
-    void setRAM(int r) { RAM = static_cast <RAM_LOC>(1 << r); }
-    void setCore(int c) { core = c; }
+    void setRAM(int r);
+    void setCore(int c);
 
   public slots:
     void resizeEvent(int w, int h);
