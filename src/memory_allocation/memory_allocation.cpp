@@ -22,7 +22,7 @@ MemoryAllocation::MemoryAllocation(QObject *parent) :
   QGraphicsScene(parent),
   viewKind(GLOBAL_RAM_VIEW),
   RAM(LRAM_0),
-  core(0)
+  core(1)
 {
   brush.setStyle(Qt::SolidPattern);
   brush.setColor(Qt::red);
@@ -87,7 +87,7 @@ void MemoryAllocation::refreshView()
               color.setRgbF(1, 0, 0);
               break;
             default:
-              color.setRgbF(0, 0, 0);
+              qDebug() << "Error: wrong switch in refreshView()";
               break;
           }
 
@@ -116,19 +116,8 @@ void MemoryAllocation::refreshView()
           //color.setRgbF(1.0, 0, 0);
 
           if (lastSolution.at(counter).ram == this->RAM) {
-            switch (lastSolution.at(counter).used_by_CPU) {
-              case 0:
-                color.setRgbF(1, 1, 0);
-                break;
-              case 2:
-                color.setRgbF(1, 0, 0);
-                break;
-              case 4:
-                color.setRgbF(1, 0, 1);
-                break;
-              case 8:
-                color.setRgbF(0, 1, 0);
-                break;
+            if (lastSolution.at(counter).used_by_CPU & this->core) {
+                color.setRgbF(0, 0, 1);
             }
           } else {
             color.setRgbF(0, 0, 0);
@@ -203,6 +192,6 @@ void MemoryAllocation::setRAM(int r)
 
 void MemoryAllocation::setCore(int c)
 {
-  this->core = c;
+  this->core = 1 << c;
   refreshView();
 }
