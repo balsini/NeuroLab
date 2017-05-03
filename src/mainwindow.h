@@ -35,15 +35,10 @@ class MainWindow : public QMainWindow
     void on_GA_stop_clicked();
     void GA_new_best(GeneticAlgorithm *, std::pair<double, double>);
     void GA_result_ready(GeneticAlgorithm *);
-
     void on_LRAM_0_checkbox_clicked();
-
     void on_LRAM_1_checkbox_clicked();
-
     void on_LRAM_2_checkbox_clicked();
-
     void on_LRAM_3_checkbox_clicked();
-
     void on_GRAM_checkbox_clicked();
 
   private:

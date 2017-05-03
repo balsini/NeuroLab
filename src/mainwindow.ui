@@ -241,7 +241,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <widget class="QRadioButton" name="radioButton_3">
+                 <widget class="QRadioButton" name="globalView">
                   <property name="text">
                    <string>Global View</string>
                   </property>
@@ -251,14 +251,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton">
+                 <widget class="QRadioButton" name="RAMView">
                   <property name="text">
                    <string>RAMs used by CPU</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="comboBox">
+                 <widget class="QComboBox" name="coreSelector">
                   <item>
                    <property name="text">
                     <string>Core 0</string>
@@ -298,7 +298,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton">
+                   <widget class="ButtonLegend" name="LRAM_0_legend">
                     <property name="styleSheet">
                      <string notr="true">background-color: #ffff00</string>
                     </property>
@@ -322,33 +322,9 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_2">
+                   <widget class="ButtonLegend" name="LRAM_1_legend">
                     <property name="styleSheet">
                      <string notr="true">background-color: #ff00ff</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6">
-                  <item>
-                   <widget class="QCheckBox" name="LRAM_3_checkbox">
-                    <property name="text">
-                     <string>Local RAM 3</string>
-                    </property>
-                    <property name="checked">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_3">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: #0000ff</string>
                     </property>
                     <property name="text">
                      <string/>
@@ -370,9 +346,33 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_5">
+                   <widget class="ButtonLegend" name="LRAM_2_legend">
                     <property name="styleSheet">
                      <string notr="true">background-color: #00ff00</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                   <widget class="QCheckBox" name="LRAM_3_checkbox">
+                    <property name="text">
+                     <string>Local RAM 3</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="ButtonLegend" name="LRAM_3_legend">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #0000ff</string>
                     </property>
                     <property name="text">
                      <string/>
@@ -394,7 +394,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_4">
+                   <widget class="ButtonLegend" name="GRAM_legend">
                     <property name="styleSheet">
                      <string notr="true">background-color: #ff0000</string>
                     </property>
@@ -492,6 +492,11 @@
    <extends>QGraphicsView</extends>
    <header>memory_allocation/memoryallocationdisplay.h</header>
    <slots>
+    <signal>LRAM_0_counted(int)</signal>
+    <signal>LRAM_1_counted(int)</signal>
+    <signal>LRAM_2_counted(int)</signal>
+    <signal>LRAM_3_counted(int)</signal>
+    <signal>GRAM_counted(int)</signal>
     <slot>setGlobalView()</slot>
     <slot>setCPUUsedByRAM()</slot>
     <slot>setRAMUsedByCPU()</slot>
@@ -500,34 +505,42 @@
     <slot>showLegend()</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>ButtonLegend</class>
+   <extends>QPushButton</extends>
+   <header>memory_allocation/buttonlegend.h</header>
+   <slots>
+    <slot>showNumericalValue(int)</slot>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>radioButton_3</sender>
+   <sender>globalView</sender>
    <signal>clicked()</signal>
    <receiver>MemAllocView</receiver>
    <slot>setGlobalView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>382</x>
-     <y>320</y>
+     <x>325</x>
+     <y>280</y>
     </hint>
     <hint type="destinationlabel">
-     <x>337</x>
-     <y>248</y>
+     <x>290</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>radioButton</sender>
+   <sender>RAMView</sender>
    <signal>clicked()</signal>
    <receiver>MemAllocView</receiver>
    <slot>setRAMUsedByCPU()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>330</x>
-     <y>348</y>
+     <x>283</x>
+     <y>322</y>
     </hint>
     <hint type="destinationlabel">
      <x>428</x>
@@ -536,18 +549,98 @@
    </hints>
   </connection>
   <connection>
-   <sender>comboBox</sender>
+   <sender>coreSelector</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>MemAllocView</receiver>
    <slot>setCore(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>313</x>
-     <y>392</y>
+     <x>266</x>
+     <y>378</y>
     </hint>
     <hint type="destinationlabel">
-     <x>507</x>
-     <y>259</y>
+     <x>460</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocView</sender>
+   <signal>LRAM_0_counted(int)</signal>
+   <receiver>LRAM_0_legend</receiver>
+   <slot>showNumericalValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>509</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>522</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocView</sender>
+   <signal>LRAM_1_counted(int)</signal>
+   <receiver>LRAM_1_legend</receiver>
+   <slot>showNumericalValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>536</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>523</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocView</sender>
+   <signal>LRAM_2_counted(int)</signal>
+   <receiver>LRAM_2_legend</receiver>
+   <slot>showNumericalValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>498</x>
+     <y>212</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>523</x>
+     <y>329</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocView</sender>
+   <signal>LRAM_3_counted(int)</signal>
+   <receiver>LRAM_3_legend</receiver>
+   <slot>showNumericalValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>523</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocView</sender>
+   <signal>GRAM_counted(int)</signal>
+   <receiver>GRAM_legend</receiver>
+   <slot>showNumericalValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>450</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>394</y>
     </hint>
    </hints>
   </connection>

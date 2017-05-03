@@ -36,6 +36,9 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     void setRAM(uint8_t r);
     void setCore(int c);
     void refreshView();
+
+  signals:
+    void RAM_counted(int, int, int, int, int);
 };
 
 #endif // MEMORY_ALLOCATION_H

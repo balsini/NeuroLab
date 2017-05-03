@@ -37,7 +37,7 @@ double MemoryAllocation::evaluateSolution(const std::vector<Label> &s) const
 
 void MemoryAllocation::refreshView()
 {
-
+  int ram_occupancy[] = {0,0,0,0,0};
   QGraphicsView *view = this->views().first();
   int w = view->width() - 3;
   int h = view->height() - 3;
@@ -57,96 +57,65 @@ void MemoryAllocation::refreshView()
   this->clear();
 
   unsigned int counter = 0;
-  switch (viewKind) {
-    case RAM_USED_BY_CPU_VIEW:
-    case GLOBAL_RAM_VIEW:
-      for (unsigned int i=0; i<rows; ++i) {
-        for (unsigned int j=0; j<columns; ++j) {
-          if (counter >= lastSolution.size())
-            return;
+  for (unsigned int i=0; i<rows; ++i) {
+    for (unsigned int j=0; j<columns; ++j) {
+      if (counter >= lastSolution.size())
+        goto exitLoop;
 
-          QPen pen;
-          QBrush brush(Qt::SolidPattern);
-          QColor color;
+      QPen pen;
+      QBrush brush(Qt::SolidPattern);
+      QColor color;
 
-          //color.setRgbF(1.0, 0, 0);
+      //color.setRgbF(1.0, 0, 0);
 
-          switch(lastSolution.at(counter).ram) {
-            case 	LRAM_0:
-              color.setRgbF(1, 1, 0);
-              break;
-            case 	LRAM_1:
-              color.setRgbF(1, 0, 1);
-              break;
-            case 	LRAM_2:
-              color.setRgbF(0, 0, 1);
-              break;
-            case 	LRAM_3:
-              color.setRgbF(0, 1, 0);
-              break;
-            case 	GRAM:
-              color.setRgbF(1, 0, 0);
-              break;
-            default:
-              qDebug() << "Error: wrong switch in refreshView()";
-              break;
-          }
-
-          if (viewKind == RAM_USED_BY_CPU_VIEW) {
-            if ((lastSolution.at(counter).used_by_CPU & this->core) == 0) {
-              color.setRgbF(0, 0, 0);
-            }
-          }
-
-          if ((lastSolution.at(counter).ram & this->RAM) == 0) {
-            color.setRgbF(0, 0, 0);
-          }
-
-          brush.setColor(color);
-
-          to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
-
-          to_add->setPos(j * rect_width, i * rect_height);
-
-          ++counter;
+      if (((viewKind == RAM_USED_BY_CPU_VIEW)
+          && ((lastSolution.at(counter).used_by_CPU & this->core) == 0)
+           ) || ((lastSolution.at(counter).ram & this->RAM) == 0)) {
+          color.setRgbF(0, 0, 0);
+      } else {
+        switch(lastSolution.at(counter).ram) {
+          case 	LRAM_0:
+            color.setRgbF(1, 1, 0);
+            ++ram_occupancy[0];
+            break;
+          case 	LRAM_1:
+            color.setRgbF(1, 0, 1);
+            ++ram_occupancy[1];
+            break;
+          case 	LRAM_2:
+            color.setRgbF(0, 0, 1);
+            ++ram_occupancy[2];
+            break;
+          case 	LRAM_3:
+            color.setRgbF(0, 1, 0);
+            ++ram_occupancy[3];
+            break;
+          case 	GRAM:
+            color.setRgbF(1, 0, 0);
+            ++ram_occupancy[4];
+            break;
+          default:
+            qDebug() << "Error: wrong switch in refreshView()";
+            break;
         }
       }
-      break;
-/*
-    case CPU_USED_BY_RAM_VIEW:
-      for (unsigned int i=0; i<rows; ++i) {
-        for (unsigned int j=0; j<columns; ++j) {
-          if (counter >= lastSolution.size())
-            return;
 
-          QPen pen;
-          QBrush brush(Qt::SolidPattern);
-          QColor color;
+      brush.setColor(color);
 
-          //color.setRgbF(1.0, 0, 0);
+      to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
 
-          if (lastSolution.at(counter).ram == this->RAM) {
-            if (lastSolution.at(counter).used_by_CPU & this->core) {
-                color.setRgbF(0, 0, 1);
-            }
-          } else {
-            color.setRgbF(0, 0, 0);
-          }
+      to_add->setPos(j * rect_width, i * rect_height);
 
-          brush.setColor(color);
-
-          to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
-
-          to_add->setPos(j * rect_width, i * rect_height);
-
-          ++counter;
-        }
-      }
-      break;
-      */
-    default:
-      break;
+      ++counter;
+    }
   }
+
+exitLoop:
+  emit RAM_counted(ram_occupancy[0],
+      ram_occupancy[1],
+      ram_occupancy[2],
+      ram_occupancy[3],
+      ram_occupancy[4]);
 }
 
 void MemoryAllocation::showSolution(const std::vector<Label> &newSolution)

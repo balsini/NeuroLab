@@ -21,6 +21,8 @@ void MemoryAllocationDisplay::setScene(QGraphicsScene * scene)
 {
   QGraphicsView::setScene(scene);
   myscene = dynamic_cast<MemoryAllocation *>(scene);
+  connect(myscene, SIGNAL(RAM_counted(int,int,int,int,int)),
+          this, SLOT(RAM_occupations(int,int,int,int,int)));
 }
 
 void MemoryAllocationDisplay::setGlobalView()
