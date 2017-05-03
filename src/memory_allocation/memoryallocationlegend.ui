@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MemoryAllocationLegend</class>
+ <widget class="QWidget" name="MemoryAllocationLegend">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Memory Allocation Legend</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="treeWidget">
+     <column>
+      <property name="text">
+       <string>Color Association</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Color</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Global View</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>LRAM 0</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="foreground">
+        <brush brushstyle="NoBrush">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 1</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 2</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 3</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="foreground">
+        <brush brushstyle="NoBrush">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>GRAM</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>RAMs used by CPU</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>LRAM 0</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 1</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 2</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>255</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>LRAM 3</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>255</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>GRAM</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>255</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Unused</string>
+       </property>
+       <property name="background">
+        <brush brushstyle="NoBrush">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="background">
+        <brush brushstyle="SolidPattern">
+         <color alpha="255">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
+        </brush>
+       </property>
+      </item>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -42,12 +42,12 @@ void MemoryAllocation::refreshView()
   int w = view->width() - 3;
   int h = view->height() - 3;
 
-  qDebug() << "Solution found, window size: [" << w << " - " << h << "]";
+  //qDebug() << "Solution found, window size: [" << w << " - " << h << "]";
 
   unsigned int columns = floor(sqrt(lastSolution.size()));
   unsigned int rows = ceil(sqrt(lastSolution.size()));
 
-  qDebug() << "Matrix size: [" << rows << " - " << columns << "]";
+  //qDebug() << "Matrix size: [" << rows << " - " << columns << "]";
 
   qreal rect_width = static_cast<double>(w) / columns;
   qreal rect_height = static_cast<double>(h) / rows;
@@ -58,6 +58,7 @@ void MemoryAllocation::refreshView()
 
   unsigned int counter = 0;
   switch (viewKind) {
+    case RAM_USED_BY_CPU_VIEW:
     case GLOBAL_RAM_VIEW:
       for (unsigned int i=0; i<rows; ++i) {
         for (unsigned int j=0; j<columns; ++j) {
@@ -91,6 +92,11 @@ void MemoryAllocation::refreshView()
               break;
           }
 
+          if (viewKind == RAM_USED_BY_CPU_VIEW) {
+            if ((lastSolution.at(counter).used_by_CPU & this->core) == 0) {
+              color.setRgbF(0, 0, 0);
+            }
+          }
 
           brush.setColor(color);
 
@@ -133,7 +139,6 @@ void MemoryAllocation::refreshView()
         }
       }
       break;
-
     default:
       break;
   }

@@ -9,6 +9,8 @@ MemoryAllocationDisplay::MemoryAllocationDisplay(QWidget * parent) :
 
   this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+  legend = new MemoryAllocationLegend(this);
 }
 
 void MemoryAllocationDisplay::resizeEvent(QResizeEvent * event)
@@ -46,4 +48,10 @@ void MemoryAllocationDisplay::setRAM(int r)
 void MemoryAllocationDisplay::setCore(int c)
 {
   myscene->setCore(c);
+}
+
+void MemoryAllocationDisplay::showLegend()
+{
+  qDebug() << "Showing legend";
+  legend->setVisible(true);
 }

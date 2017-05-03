@@ -4,13 +4,15 @@
 #include <QGraphicsView>
 #include <QResizeEvent>
 
-#include "memory_allocation/memory_allocation.h"
+#include "memory_allocation.h"
+#include "memoryallocationlegend.h"
 
 class MemoryAllocationDisplay : public QGraphicsView
 {
     Q_OBJECT
 
-    MemoryAllocation * myscene;
+    MemoryAllocation *myscene;
+    MemoryAllocationLegend *legend;
 
   public:
     MemoryAllocationDisplay(QWidget * parent = 0);
@@ -23,6 +25,7 @@ class MemoryAllocationDisplay : public QGraphicsView
     void setRAMUsedByCPU();
     void setRAM(int);
     void setCore(int);
+    void showLegend();
 };
 
 #endif // MEMORYALLOCATIONDISPLAY_H

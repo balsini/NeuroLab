@@ -241,9 +241,61 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
+                 <widget class="QRadioButton" name="radioButton_3">
+                  <property name="text">
+                   <string>Global View</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton">
+                  <property name="text">
+                   <string>RAMs used by CPU</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox">
+                  <item>
+                   <property name="text">
+                    <string>Core 0</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 1</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 2</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Core 3</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="MemAllocLegend">
+                  <property name="text">
+                   <string>Legend</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QRadioButton" name="radioButton_2">
                   <property name="text">
-                   <string>CPUs used by RAM</string>
+                   <string>In RAM used by Core</string>
                   </property>
                   <property name="checked">
                    <bool>false</bool>
@@ -281,52 +333,7 @@
                 </item>
                </layout>
               </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_2">
-                <item>
-                 <widget class="QRadioButton" name="radioButton">
-                  <property name="text">
-                   <string>RAM used by CPUs</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox">
-                  <item>
-                   <property name="text">
-                    <string>Core 0</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 3</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-               </layout>
-              </item>
              </layout>
-            </item>
-            <item row="1" column="0">
-             <widget class="QRadioButton" name="radioButton_3">
-              <property name="text">
-               <string>Global View</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
             </item>
            </layout>
           </widget>
@@ -416,6 +423,7 @@
     <slot>setRAMUsedByCPU()</slot>
     <slot>setRAM(int)</slot>
     <slot>setCore(int)</slot>
+    <slot>showLegend()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -444,7 +452,7 @@
    <slot>setCPUUsedByRAM()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>307</x>
+     <x>440</x>
      <y>362</y>
     </hint>
     <hint type="destinationlabel">
@@ -460,8 +468,8 @@
    <slot>setRAMUsedByCPU()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>444</x>
-     <y>359</y>
+     <x>287</x>
+     <y>358</y>
     </hint>
     <hint type="destinationlabel">
      <x>428</x>
@@ -476,7 +484,7 @@
    <slot>setRAM(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>376</x>
+     <x>509</x>
      <y>394</y>
     </hint>
     <hint type="destinationlabel">
@@ -492,12 +500,28 @@
    <slot>setCore(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>470</x>
-     <y>393</y>
+     <x>313</x>
+     <y>392</y>
     </hint>
     <hint type="destinationlabel">
      <x>464</x>
      <y>289</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MemAllocLegend</sender>
+   <signal>clicked()</signal>
+   <receiver>MemAllocView</receiver>
+   <slot>showLegend()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>499</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>502</x>
+     <y>264</y>
     </hint>
    </hints>
   </connection>
