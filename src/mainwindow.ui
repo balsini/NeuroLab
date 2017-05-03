@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
+    <width>529</width>
     <height>460</height>
    </rect>
   </property>
@@ -241,6 +241,13 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
+                 <widget class="QPushButton" name="MemAllocLegend">
+                  <property name="text">
+                   <string>Legend</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QRadioButton" name="radioButton_3">
                   <property name="text">
                    <string>Global View</string>
@@ -286,50 +293,124 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <item>
-                 <widget class="QPushButton" name="MemAllocLegend">
-                  <property name="text">
-                   <string>Legend</string>
-                  </property>
-                 </widget>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <widget class="QCheckBox" name="LRAM_0_checkbox">
+                    <property name="text">
+                     <string>Local RAM 0</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #ffff00</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_2">
-                  <property name="text">
-                   <string>In RAM used by Core</string>
-                  </property>
-                  <property name="checked">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QCheckBox" name="LRAM_1_checkbox">
+                    <property name="text">
+                     <string>Local RAM 1</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_2">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #ff00ff</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="comboBox_2">
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
                   <item>
-                   <property name="text">
-                    <string>Local RAM 0</string>
-                   </property>
+                   <widget class="QCheckBox" name="LRAM_3_checkbox">
+                    <property name="text">
+                     <string>Local RAM 3</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <property name="text">
-                    <string>Local RAM 1</string>
-                   </property>
+                   <widget class="QPushButton" name="pushButton_3">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #0000ff</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <widget class="QCheckBox" name="LRAM_2_checkbox">
+                    <property name="text">
+                     <string>Local RAM 2</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <property name="text">
-                    <string>Local RAM 2</string>
-                   </property>
+                   <widget class="QPushButton" name="pushButton_5">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #00ff00</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <item>
+                   <widget class="QCheckBox" name="GRAM_checkbox">
+                    <property name="text">
+                     <string>Global RAM</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <property name="text">
-                    <string>Local RAM 3</string>
-                   </property>
+                   <widget class="QPushButton" name="pushButton_4">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: #ff0000</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
                   </item>
-                  <item>
-                   <property name="text">
-                    <string>Global RAM</string>
-                   </property>
-                  </item>
-                 </widget>
+                 </layout>
                 </item>
                </layout>
               </item>
@@ -399,7 +480,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>586</width>
+     <width>529</width>
      <height>23</height>
     </rect>
    </property>
@@ -436,28 +517,12 @@
    <slot>setGlobalView()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>339</x>
-     <y>335</y>
+     <x>382</x>
+     <y>320</y>
     </hint>
     <hint type="destinationlabel">
      <x>337</x>
      <y>248</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>radioButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>setCPUUsedByRAM()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>440</x>
-     <y>362</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>310</x>
-     <y>260</y>
     </hint>
    </hints>
   </connection>
@@ -468,28 +533,12 @@
    <slot>setRAMUsedByCPU()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>287</x>
-     <y>358</y>
+     <x>330</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
      <x>428</x>
      <y>219</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBox_2</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>setRAM(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>509</x>
-     <y>394</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>369</x>
-     <y>271</y>
     </hint>
    </hints>
   </connection>
@@ -504,8 +553,8 @@
      <y>392</y>
     </hint>
     <hint type="destinationlabel">
-     <x>464</x>
-     <y>289</y>
+     <x>507</x>
+     <y>259</y>
     </hint>
    </hints>
   </connection>
@@ -516,12 +565,12 @@
    <slot>showLegend()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>499</x>
-     <y>333</y>
+     <x>397</x>
+     <y>283</y>
     </hint>
     <hint type="destinationlabel">
-     <x>502</x>
-     <y>264</y>
+     <x>545</x>
+     <y>259</y>
     </hint>
    </hints>
   </connection>

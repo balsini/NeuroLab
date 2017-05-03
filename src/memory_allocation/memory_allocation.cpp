@@ -21,7 +21,7 @@ static QBrush brush;
 MemoryAllocation::MemoryAllocation(QObject *parent) :
   QGraphicsScene(parent),
   viewKind(GLOBAL_RAM_VIEW),
-  RAM(LRAM_0),
+  RAM(LRAM_0 | LRAM_1 | LRAM_2 | LRAM_3 | GRAM),
   core(1)
 {
   brush.setStyle(Qt::SolidPattern);
@@ -98,6 +98,10 @@ void MemoryAllocation::refreshView()
             }
           }
 
+          if ((lastSolution.at(counter).ram & this->RAM) == 0) {
+            color.setRgbF(0, 0, 0);
+          }
+
           brush.setColor(color);
 
           to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
@@ -108,7 +112,7 @@ void MemoryAllocation::refreshView()
         }
       }
       break;
-
+/*
     case CPU_USED_BY_RAM_VIEW:
       for (unsigned int i=0; i<rows; ++i) {
         for (unsigned int j=0; j<columns; ++j) {
@@ -139,6 +143,7 @@ void MemoryAllocation::refreshView()
         }
       }
       break;
+      */
     default:
       break;
   }
@@ -194,9 +199,9 @@ void MemoryAllocation::setView(ViewKind v)
   refreshView();
 }
 
-void MemoryAllocation::setRAM(int r)
+void MemoryAllocation::setRAM(uint8_t r)
 {
-  this->RAM = static_cast <RAM_LOC>(1 << r);
+  this->RAM = r;
   refreshView();
 }
 

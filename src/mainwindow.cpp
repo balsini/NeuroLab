@@ -140,3 +140,46 @@ void MainWindow::on_GA_stop_clicked()
 {
     workerThread->stop();
 }
+
+void MainWindow::update_memory_ram_chosen()
+{
+  uint8_t ram = 0;
+
+  if (ui->LRAM_0_checkbox->isChecked())
+    ram |= LRAM_0;
+  if (ui->LRAM_1_checkbox->isChecked())
+    ram |= LRAM_1;
+  if (ui->LRAM_2_checkbox->isChecked())
+    ram |= LRAM_2;
+  if (ui->LRAM_3_checkbox->isChecked())
+    ram |= LRAM_3;
+  if (ui->GRAM_checkbox->isChecked())
+    ram |= GRAM;
+
+  ui->MemAllocView->setRAM(ram);
+}
+
+void MainWindow::on_LRAM_0_checkbox_clicked()
+{
+  update_memory_ram_chosen();
+}
+
+void MainWindow::on_LRAM_1_checkbox_clicked()
+{
+  update_memory_ram_chosen();
+}
+
+void MainWindow::on_LRAM_2_checkbox_clicked()
+{
+  update_memory_ram_chosen();
+}
+
+void MainWindow::on_LRAM_3_checkbox_clicked()
+{
+  update_memory_ram_chosen();
+}
+
+void MainWindow::on_GRAM_checkbox_clicked()
+{
+  update_memory_ram_chosen();
+}

@@ -2,17 +2,18 @@
 #define MEMORY_ALLOCATION_H
 
 #include <vector>
+#include <chrono>
+#include <cstdint>
+
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include <chrono>
-
 #include <QResizeEvent>
 
 #include "optimizationproblem.h"
 #include "WATERS/src/milpData.h"
 #include "WATERS/src/genetic.h"
 
-enum ViewKind { GLOBAL_RAM_VIEW, CPU_USED_BY_RAM_VIEW, RAM_USED_BY_CPU_VIEW };
+enum ViewKind { GLOBAL_RAM_VIEW, RAM_USED_BY_CPU_VIEW };
 
 class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Label>
 {
@@ -20,7 +21,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
 
     ViewKind viewKind;
     std::vector<Label> lastSolution;
-    RAM_LOC RAM;
+    uint8_t RAM;
     int core;
 
     void refreshView();
@@ -34,7 +35,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     void mutate(std::vector<Label> &c);
     std::vector<Label> getRandomSolution() const;
     void setView(ViewKind v);
-    void setRAM(int r);
+    void setRAM(uint8_t r);
     void setCore(int c);
 
   public slots:

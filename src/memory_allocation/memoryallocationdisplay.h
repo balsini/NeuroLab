@@ -1,6 +1,8 @@
 #ifndef MEMORYALLOCATIONDISPLAY_H
 #define MEMORYALLOCATIONDISPLAY_H
 
+#include <cstdint>
+
 #include <QGraphicsView>
 #include <QResizeEvent>
 
@@ -21,9 +23,8 @@ class MemoryAllocationDisplay : public QGraphicsView
 
   public slots:
     void setGlobalView();
-    void setCPUUsedByRAM();
     void setRAMUsedByCPU();
-    void setRAM(int);
+    void setRAM(uint8_t);
     void setCore(int);
     void showLegend();
 };

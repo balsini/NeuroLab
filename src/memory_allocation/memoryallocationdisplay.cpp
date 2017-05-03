@@ -30,17 +30,12 @@ void MemoryAllocationDisplay::setGlobalView()
   myscene->setView(GLOBAL_RAM_VIEW);
 }
 
-void MemoryAllocationDisplay::setCPUUsedByRAM()
-{
-  myscene->setView(CPU_USED_BY_RAM_VIEW);
-}
-
 void MemoryAllocationDisplay::setRAMUsedByCPU()
 {
   myscene->setView(RAM_USED_BY_CPU_VIEW);
 }
 
-void MemoryAllocationDisplay::setRAM(int r)
+void MemoryAllocationDisplay::setRAM(uint8_t r)
 {
   myscene->setRAM(r);
 }
@@ -52,6 +47,5 @@ void MemoryAllocationDisplay::setCore(int c)
 
 void MemoryAllocationDisplay::showLegend()
 {
-  qDebug() << "Showing legend";
   legend->setVisible(true);
 }
