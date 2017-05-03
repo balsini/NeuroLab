@@ -9,30 +9,35 @@
 #include <QResizeEvent>
 
 #include "optimizationproblem.h"
+#include "WATERS/src/milpData.h"
+#include "WATERS/src/genetic.h"
 
-typedef std::pair<int, int> Coordinate;
+enum ViewKind { GLOBAL_RAM_VIEW, CPU_USED_BY_RAM_VIEW, RAM_USED_BY_CPU_VIEW };
 
-enum Memory { LRAM0, LRAM1, LRAM2, LRAM3, GRAM };
-
-class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<int>
+class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Label>
 {
     Q_OBJECT
 
-    std::vector<QGraphicsItem *> targets;
-    std::vector<QGraphicsItem *> steps;
+    ViewKind viewKind;
+    std::vector<Label> lastSolution;
+    RAM_LOC RAM;
+    int core;
+
+    void refreshView();
 
   public:
     MemoryAllocation(QObject *parent = Q_NULLPTR);
-    std::vector<Coordinate> getTargets();
-    unsigned int getSolutionSize() const { return targets.size(); }
-    double evaluateSolution(const std::vector<int> &s) const;
-    void showSolution(const std::vector<int> &s);
-    std::vector<int> crossover(const std::vector<int> &a, const std::vector<int> &b);
-    std::vector<int> getRandomSolution() const;
+    unsigned int getSolutionSize() const { return get_genes_size_waters_GA(); }
+    double evaluateSolution(const std::vector<Label> &s) const;
+    void showSolution(const std::vector<Label> &newSolution);
+    std::vector<Label> crossover(const std::vector<Label> &a, const std::vector<Label> &b);
+    std::vector<Label> getRandomSolution() const;
+    void setView(ViewKind v);
+    void setRAM(int r) { RAM = static_cast <RAM_LOC>(1 << r); }
+    void setCore(int c) { core = c; }
 
   public slots:
-    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(int w, int h);
 };
 
 #endif // MEMORY_ALLOCATION_H

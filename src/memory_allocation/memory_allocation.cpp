@@ -5,143 +5,174 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QBrush>
+#include <QColor>
+#include <QGraphicsView>
+
 #include <algorithm>
 #include <cmath>
+
+#include "WATERS/src/main_waters.h"
+#include "WATERS/src/RT.h"
+#include "WATERS/src/genetic.h"
 
 static const int radius = 8;
 static QBrush brush;
 
 MemoryAllocation::MemoryAllocation(QObject *parent) :
-  QGraphicsScene(parent)
+  QGraphicsScene(parent),
+  viewKind(GLOBAL_RAM_VIEW)
 {
   brush.setStyle(Qt::SolidPattern);
   brush.setColor(Qt::red);
+
+  initialize_waters_data();
 }
 
-void MemoryAllocation::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+double MemoryAllocation::evaluateSolution(const std::vector<Label> &s) const
 {
-  switch (mouseEvent->button()) {
-    case Qt::LeftButton:
-      QGraphicsItem *to_add;
+  return computeResponseTime(s);
+}
 
-      to_add = addEllipse(0,0,
-                          radius, radius, QPen(), brush);
-      to_add->setPos(mouseEvent->scenePos().x(),
-                     mouseEvent->scenePos().y());
+void MemoryAllocation::refreshView()
+{
 
-      targets.push_back(to_add);
-      break;
-    case Qt::RightButton:
-      QGraphicsItem *to_delete;
+  QGraphicsView *view = this->views().first();
+  int w = view->width() - 3;
+  int h = view->height() - 3;
 
-      to_delete = itemAt(mouseEvent->scenePos().x(),
-                         mouseEvent->scenePos().y(),
-                         QTransform());
-      if (to_delete) {
-        auto i = find(targets.begin(), targets.end(), to_delete);
-        if (i != targets.end()) {
-          targets.erase(i);
-          removeItem(to_delete);
+  qDebug() << "Solution found, window size: [" << w << " - " << h << "]";
+
+  unsigned int columns = floor(sqrt(lastSolution.size()));
+  unsigned int rows = ceil(sqrt(lastSolution.size()));
+
+  qDebug() << "Matrix size: [" << rows << " - " << columns << "]";
+
+  qreal rect_width = static_cast<double>(w) / columns;
+  qreal rect_height = static_cast<double>(h) / rows;
+
+  QGraphicsItem *to_add;
+
+  this->clear();
+
+  unsigned int counter = 0;
+  switch (viewKind) {
+    case GLOBAL_RAM_VIEW:
+      for (unsigned int i=0; i<rows; ++i) {
+        for (unsigned int j=0; j<columns; ++j) {
+          if (counter >= lastSolution.size())
+            return;
+
+          QPen pen;
+          QBrush brush(Qt::SolidPattern);
+          QColor color;
+
+          //color.setRgbF(1.0, 0, 0);
+
+          switch(lastSolution.at(counter).ram) {
+            case 	LRAM_0:
+              color.setRgbF(1, 1, 0);
+              break;
+            case 	LRAM_1:
+              color.setRgbF(1, 0, 1);
+              break;
+            case 	LRAM_2:
+              color.setRgbF(0, 0, 1);
+              break;
+            case 	LRAM_3:
+              color.setRgbF(0, 1, 0);
+              break;
+            case 	GRAM:
+              color.setRgbF(1, 0, 0);
+              break;
+            default:
+              color.setRgbF(0, 0, 0);
+              break;
+          }
+
+
+          brush.setColor(color);
+
+          to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
+
+          to_add->setPos(j * rect_width, i * rect_height);
+
+          ++counter;
         }
       }
       break;
-    default: break;
+
+    case CPU_USED_BY_RAM_VIEW:
+      /*
+      for (unsigned int i=0; i<rows; ++i) {
+        for (unsigned int j=0; j<columns; ++j) {
+          if (counter >= lastSolution.size())
+            return;
+
+          QPen pen;
+          QBrush brush(Qt::SolidPattern);
+          QColor color;
+
+          //color.setRgbF(1.0, 0, 0);
+
+          switch(lastSolution.at(counter).ram) {
+            case 	LRAM_0:
+              color.setRgbF(1, 1, 0);
+              break;
+            case 	LRAM_1:
+              color.setRgbF(1, 0, 1);
+              break;
+            case 	LRAM_2:
+              color.setRgbF(0, 0, 1);
+              break;
+            case 	LRAM_3:
+              color.setRgbF(0, 1, 0);
+              break;
+            case 	GRAM:
+              color.setRgbF(1, 0, 0);
+              break;
+            default:
+              color.setRgbF(0, 0, 0);
+              break;
+          }
+
+
+          brush.setColor(color);
+
+          to_add = addRect(0, 0, rect_width, rect_height, pen, brush);
+
+          to_add->setPos(j * rect_width, i * rect_height);
+
+          ++counter;
+        }
+      }
+      */
+      break;
+
+    default:
+      break;
   }
 }
 
-std::vector<Coordinate> MemoryAllocation::getTargets()
+void MemoryAllocation::showSolution(const std::vector<Label> &newSolution)
 {
-  std::vector<Coordinate> ret;
+  lastSolution = newSolution;
 
-  for (QGraphicsItem *p : targets)
-    ret.push_back(std::make_pair(p->x(),
-                                 p->y()));
-
-  return ret;
+  refreshView();
 }
 
-double MemoryAllocation::evaluateSolution(const std::vector<int> &s) const
+std::vector<Label> MemoryAllocation::crossover(const std::vector<Label> &a, const std::vector<Label> &b)
 {
-  double _cost = 0;
-
-  for (unsigned int i=0; i<s.size(); ++i) {
-    int x1, x2, y1, y2;
-
-    x1 = targets[s[i]]->x();
-    x2 = targets[s[(i + 1) % s.size()]]->x();
-
-    y1 = targets[s[i]]->y();
-    y2 = targets[s[(i + 1) % s.size()]]->y();
-
-    _cost += sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
-  }
-
-  return _cost;
+  return crossover_waters_GA(a, b);
 }
 
-void MemoryAllocation::showSolution(const std::vector<int> &s)
+std::vector<Label> MemoryAllocation::getRandomSolution() const
 {
-
-
+  return getRandomSolution_waters_GA();
 }
 
-std::vector<int> MemoryAllocation::crossover(const std::vector<int> &a, const std::vector<int> &b)
+void MemoryAllocation::resizeEvent(int w, int h)
 {
-  std::vector<int> ret;
-  std::vector<int> sub_sol;
-  static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine generator(seed);
-  std::uniform_int_distribution<int> d1(0, a.size() - 2);
-  unsigned int c1, c2;
-  unsigned int i;
-
-  c1 = d1(generator);
-
-  std::uniform_int_distribution<int> d2(c1 + 1, targets.size() - 1);
-
-  c2 = d2(generator);
-
-  for (i=c1; i<c2; ++i)
-    sub_sol.push_back(a[i]);
-
-  i = 0;
-  while (ret.size() < c1) {
-    if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
-      ret.push_back(b[i]);
-    ++i;
-  }
-
-  for (auto v : sub_sol)
-    ret.push_back(v);
-
-  while (ret.size() < a.size()) {
-    if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
-      ret.push_back(b[i]);
-    ++i;
-  }
-
-  return ret;
-}
-
-std::vector<int> MemoryAllocation::getRandomSolution() const
-{
-  static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine generator(seed);
-  std::uniform_int_distribution<int> distribution(0, targets.size() - 1);
-
-  std::vector<int> s;
-
-  for (unsigned int i=0; i<targets.size(); ++i)
-    s.push_back(i);
-
-  for (unsigned int i=0; i<s.size(); ++i)
-    std::swap(s[i], s[distribution(generator)]);
-
-  return s;
-}
-
-void MemoryAllocation::resizeEvent(QResizeEvent *event)
-{
+  /*
   qDebug() << "sceneRectChanged(const QRectF &rect)" << event->size();
 
   qreal rect_width = event->size().width() / 100.0;
@@ -158,4 +189,11 @@ void MemoryAllocation::resizeEvent(QResizeEvent *event)
       to_add->setPos(j * rect_width, i * rect_height);
     }
   }
+  */
+}
+
+void MemoryAllocation::setView(ViewKind v)
+{
+  viewKind = v;
+  refreshView();
 }

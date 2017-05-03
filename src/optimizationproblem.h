@@ -21,7 +21,7 @@ class GAOptimizationProblem : public OptimizationProblem<T>
   protected:
     GAOptimizationProblem() {}
   public:
-    virtual std::vector<int> crossover(const std::vector<T> &,
+    virtual std::vector<T> crossover(const std::vector<T> &,
                                        const std::vector<T> &) = 0;
 };
 

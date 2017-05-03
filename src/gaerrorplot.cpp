@@ -35,7 +35,7 @@ void GAErrorPlot::addEpochValues(double min, double mean)
 
 void GAErrorPlot::plot()
 {
-  int max, min;
+  qreal max, min;
 
   //QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
   //axisX->setCategories(categories);

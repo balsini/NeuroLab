@@ -26,11 +26,11 @@ class GeneticAlgorithm
     unsigned int _genes;
 
   public:
-    GeneticAlgorithm(unsigned int epochs,
-                     unsigned int size,
-                     double survivors,
-                     double identical,
-                     double recombine) :
+     GeneticAlgorithm(unsigned int epochs,
+                             unsigned int size,
+                             double survivors,
+                             double identical,
+                             double recombine) :
       _epochs(epochs),
       _size(size),
       _survivors(size * survivors),
@@ -59,6 +59,7 @@ template <class Gene>
 class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 {
     typedef std::vector<Gene> Chromosome;
+
     std::vector<std::pair<Chromosome, double>> population;
     GAOptimizationProblem<Gene> *_problem;
 
@@ -70,11 +71,17 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
                                  double recombine) :
       GeneticAlgorithm(epochs, size, survivors, identical, recombine)
     {}
-    void setProblem(GAOptimizationProblem<Gene> *p) { _problem = p; }
+
+    void setProblem(GAOptimizationProblem<Gene> *p)
+    {
+      _problem = p;
+    }
+
     void clear()
     {
       population.clear();
     }
+
     double evaluate()
     {
       double sum = 0.0;
@@ -86,6 +93,7 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
       return sum;
     }
+
     void reorder()
     {
       std::sort(population.begin(), population.end(),
@@ -93,11 +101,13 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
         return a.second < b.second;
       });
     }
+
     void removeWorst()
     {
       for (unsigned int i=0; i<_kill; ++i)
         population.pop_back();
     }
+
     void crossover()
     {
       static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -111,23 +121,20 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
             0.0));
       }
     }
+
     void mutation()
     {
       static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
       static std::default_random_engine generator(seed);
       std::uniform_int_distribution<int> d(0, _genes - 1);
-      int p1, p2, x;
 
       for (unsigned int i=_identical; i<_identical+_mutate; ++i) {
         Chromosome &c = population[i].first;
 
-        p1 = d(generator);
-        p2 = d(generator);
-        x = c[p1];
-        c[p1] = c[p2];
-        c[p2] = x;
+        std::swap(c[d(generator)], c[d(generator)]);
       }
     }
+
     std::pair<double, double> run_init()
     {
       double mean;
@@ -166,45 +173,48 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       return std::make_pair(population.front().second, mean);
     }
 
-void computeAnySolution()
-{
-  for (auto &p : population)
-    p.first = _problem->getRandomSolution();
-}
-void showSolution()
-{
-  _problem->showSolution(population.front().first);
-}
-void printInfo()
-{
-  std::cout << "Population:\t" << population.size() << std::endl;
-  std::cout << "Gene Type:\t" << typeid(Gene).name() << std::endl;
-  std::cout << "Genes:\t" << _genes << std::endl;
-  std::cout << "Survivors:\t" << _survivors << std::endl;
-  std::cout << "Identical:\t" << _identical << std::endl;
-  std::cout << "Recombine:\t" << _recombine << std::endl;
-  std::cout << "Mutate:\t" << _mutate << std::endl;
-  std::cout << "----------------" << std::endl;
-}
-void printSolution(const Chromosome &c)
-{
-  for (auto const &v : c)
-    std::cout << v << " ";
-}
+    void computeAnySolution()
+    {
+      for (auto &p : population)
+        p.first = _problem->getRandomSolution();
+    }
 
-void printPopulation()
-{
-  unsigned int counter = 0;
+    void showSolution()
+    {
+      _problem->showSolution(population.front().first);
+    }
 
-  std::cout << "Population:" << std::endl;
-  for (auto const &p : population) {
-    std::cout << counter++ << ")\t";
-    printSolution(p.first);
+    void printInfo()
+    {
+      std::cout << "Population:\t" << population.size() << std::endl;
+      std::cout << "Gene Type:\t" << typeid(Gene).name() << std::endl;
+      std::cout << "Genes:\t" << _genes << std::endl;
+      std::cout << "Survivors:\t" << _survivors << std::endl;
+      std::cout << "Identical:\t" << _identical << std::endl;
+      std::cout << "Recombine:\t" << _recombine << std::endl;
+      std::cout << "Mutate:\t" << _mutate << std::endl;
+      std::cout << "----------------" << std::endl;
+    }
 
-    std::cout << "\t ( " << _problem->evaluateSolution(p.first) << " )" << std::endl;
-  }
-  std::cout << "----------------" << std::endl;
-}
+    void printSolution(const Chromosome &c)
+    {
+      for (auto const &v : c)
+        std::cout << v << " ";
+    }
+
+    void printPopulation()
+    {
+      unsigned int counter = 0;
+
+      std::cout << "Population:" << std::endl;
+      for (auto const &p : population) {
+        std::cout << counter++ << ")\t";
+        printSolution(p.first);
+
+        std::cout << "\t ( " << _problem->evaluateSolution(p.first) << " )" << std::endl;
+      }
+      std::cout << "----------------" << std::endl;
+    }
 };
 
 class GA_Thread : public QThread

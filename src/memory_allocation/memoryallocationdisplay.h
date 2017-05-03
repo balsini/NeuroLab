@@ -8,11 +8,21 @@
 
 class MemoryAllocationDisplay : public QGraphicsView
 {
+    Q_OBJECT
+
     MemoryAllocation * myscene;
+
   public:
     MemoryAllocationDisplay(QWidget * parent = 0);
     void setScene(QGraphicsScene * scene);
-    void resizeEvent(QResizeEvent * event);
+    void resizeEvent(QResizeEvent *event);
+
+  public slots:
+    void setGlobalView();
+    void setCPUUsedByRAM();
+    void setRAMUsedByCPU();
+    void setRAM(int);
+    void setCore(int);
 };
 
 #endif // MEMORYALLOCATIONDISPLAY_H

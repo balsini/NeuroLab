@@ -4,6 +4,7 @@
 #include "matfun.h"
 #include "hopfield.h"
 #include "geneticalgorithm.h"
+#include "memory_allocation/WATERS/src/milpData.h"
 
 #include <functional>
 #include <QString>
@@ -16,11 +17,11 @@ Hopfield h(16*16);
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
+  g(nullptr),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
 
-  g = nullptr;
   tsp = new TSP(this);
   ui->TSPView->setScene(tsp);
 
@@ -80,24 +81,28 @@ void MainWindow::on_GA_run_clicked()
     delete g;
     g = nullptr;
   }
-  g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
-                                ui->GA_population->text().toInt(),
-                                ui->GA_survivors->value() / 100.0,
-                                ui->GA_identical->value() / 100.0,
-                                ui->GA_recombine->value() / 100.0);
 
   qDebug() << "Current tab index: " << ui->geneticTab->currentIndex();
 
   switch (ui->geneticTab->currentIndex()) {
     case 0:
+      g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
+                                    ui->GA_population->text().toInt(),
+                                    ui->GA_survivors->value() / 100.0,
+                                    ui->GA_identical->value() / 100.0,
+                                    ui->GA_recombine->value() / 100.0);
+
       dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
       break;
     case 1:
-      dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(memory_allocation);
+      g = new GeneticAlgorithm_Specialized<Label>(ui->GA_epochs->text().toInt(),
+                                    ui->GA_population->text().toInt(),
+                                    ui->GA_survivors->value() / 100.0,
+                                    ui->GA_identical->value() / 100.0,
+                                    ui->GA_recombine->value() / 100.0);
+      dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
       break;
     default:
-      delete g;
-      g = nullptr;
       return;
   }
 

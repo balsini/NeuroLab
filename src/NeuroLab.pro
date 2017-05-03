@@ -20,18 +20,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+DEFINES += MODEL_PATH=\\\"$$_PRO_FILE_PWD_/memory_allocation/WATERS/model/ChallengeModel2017modified.amxmi\\\"
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
+SOURCES += \
+    main.cpp \
+    mainwindow.cpp \
     kohonen.cpp \
     hopfield.cpp \
     matfun.cpp \
     gaerrorplot.cpp \
     tsp/tsp.cpp \
     memory_allocation/memory_allocation.cpp \
-    memory_allocation/memoryallocationdisplay.cpp
+    memory_allocation/memoryallocationdisplay.cpp \
+    memory_allocation/WATERS/src/tinyxml/tinyxml2.cpp \
+    memory_allocation/WATERS/src/copy_in_newstruct.cpp \
+    memory_allocation/WATERS/src/EventChains2.cpp \
+    memory_allocation/WATERS/src/EventChains2_elem.cpp \
+    memory_allocation/WATERS/src/genetic.cpp \
+    memory_allocation/WATERS/src/Label2.cpp \
+    memory_allocation/WATERS/src/main_waters.cpp \
+    memory_allocation/WATERS/src/milpData.cpp \
+    memory_allocation/WATERS/src/optimization.cpp \
+    memory_allocation/WATERS/src/RT.cpp \
+    memory_allocation/WATERS/src/Runnable2.cpp \
+    memory_allocation/WATERS/src/strtools.cpp \
+    memory_allocation/WATERS/src/Task2.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
+    mainwindow.h \
     kohonen.h \
     hopfield.h \
     matfun.h \
@@ -40,6 +56,20 @@ HEADERS  += mainwindow.h \
     optimizationproblem.h \
     tsp/tsp.h \
     memory_allocation/memory_allocation.h \
-    memory_allocation/memoryallocationdisplay.h
+    memory_allocation/memoryallocationdisplay.h \
+    memory_allocation/WATERS/src/tinyxml/tinyxml2.h \
+    memory_allocation/WATERS/src/copy_in_newstruct.h \
+    memory_allocation/WATERS/src/EventChains2.h \
+    memory_allocation/WATERS/src/EventChains2_elem.h \
+    memory_allocation/WATERS/src/genetic.h \
+    memory_allocation/WATERS/src/Label2.h \
+    memory_allocation/WATERS/src/main_waters.h \
+    memory_allocation/WATERS/src/milpData.h \
+    memory_allocation/WATERS/src/optimization.h \
+    memory_allocation/WATERS/src/RT.h \
+    memory_allocation/WATERS/src/Runnable2.h \
+    memory_allocation/WATERS/src/shared.h \
+    memory_allocation/WATERS/src/strtools.h \
+    memory_allocation/WATERS/src/Task2.h
 
 FORMS    += mainwindow.ui
