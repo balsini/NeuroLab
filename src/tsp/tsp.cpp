@@ -1,8 +1,11 @@
 #include "tsp.h"
 
+#include <QDebug>
+
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QBrush>
+
 #include <algorithm>
 #include <cmath>
 
@@ -143,6 +146,15 @@ std::vector<int> TSP::crossover(const std::vector<int> &a, const std::vector<int
   }
 
   return ret;
+}
+
+void TSP::mutate(std::vector<int> &c)
+{
+  static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  static std::default_random_engine generator(seed);
+  std::uniform_int_distribution<int> d(0, c.size() - 1);
+
+  std::swap(c[d(generator)], c[d(generator)]);
 }
 
 std::vector<int> TSP::getRandomSolution() const

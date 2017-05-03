@@ -26,6 +26,7 @@ class TSP : public QGraphicsScene, public GAOptimizationProblem<int>
     double evaluateSolution(const std::vector<int> &s) const;
     void showSolution(const std::vector<int> &s);
     std::vector<int> crossover(const std::vector<int> &a, const std::vector<int> &b);
+    void mutate(std::vector<int> &);
     std::vector<int> getRandomSolution() const;
 
   public slots:

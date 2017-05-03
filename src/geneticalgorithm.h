@@ -124,14 +124,10 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
     void mutation()
     {
-      static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-      static std::default_random_engine generator(seed);
-      std::uniform_int_distribution<int> d(0, _genes - 1);
-
       for (unsigned int i=_identical; i<_identical+_mutate; ++i) {
         Chromosome &c = population[i].first;
 
-        std::swap(c[d(generator)], c[d(generator)]);
+        _problem->mutate(c);
       }
     }
 

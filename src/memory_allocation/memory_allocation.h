@@ -31,6 +31,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     double evaluateSolution(const std::vector<Label> &s) const;
     void showSolution(const std::vector<Label> &newSolution);
     std::vector<Label> crossover(const std::vector<Label> &a, const std::vector<Label> &b);
+    void mutate(std::vector<Label> &c);
     std::vector<Label> getRandomSolution() const;
     void setView(ViewKind v);
     void setRAM(int r);

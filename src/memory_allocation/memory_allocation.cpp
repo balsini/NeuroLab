@@ -156,6 +156,11 @@ std::vector<Label> MemoryAllocation::crossover(const std::vector<Label> &a, cons
   return crossover_waters_GA(a, b);
 }
 
+void MemoryAllocation::mutate(std::vector<Label> &c)
+{
+  mutatate_chromosome_waters_GA(c);
+}
+
 std::vector<Label> MemoryAllocation::getRandomSolution() const
 {
   return getRandomSolution_waters_GA();
