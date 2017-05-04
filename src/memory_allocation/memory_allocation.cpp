@@ -20,9 +20,8 @@ static QBrush brush;
 
 MemoryAllocation::MemoryAllocation(QObject *parent) :
   QGraphicsScene(parent),
-  viewKind(GLOBAL_RAM_VIEW),
   RAM(LRAM_0 | LRAM_1 | LRAM_2 | LRAM_3 | GRAM),
-  core(1)
+  core(0)
 {
   brush.setStyle(Qt::SolidPattern);
   brush.setColor(Qt::red);
@@ -68,9 +67,8 @@ void MemoryAllocation::refreshView()
 
       //color.setRgbF(1.0, 0, 0);
 
-      if (((viewKind == RAM_USED_BY_CPU_VIEW)
-          && ((lastSolution.at(counter).used_by_CPU & this->core) == 0)
-           ) || ((lastSolution.at(counter).ram & this->RAM) == 0)) {
+      if (((lastSolution.at(counter).used_by_CPU & this->core) != this->core)
+            || ((lastSolution.at(counter).ram & this->RAM) == 0)) {
           color.setRgbF(0, 0, 0);
       } else {
         switch(lastSolution.at(counter).ram) {
@@ -140,20 +138,14 @@ std::vector<Label> MemoryAllocation::getRandomSolution() const
   return getRandomSolution_waters_GA();
 }
 
-void MemoryAllocation::setView(ViewKind v)
-{
-  viewKind = v;
-  refreshView();
-}
-
 void MemoryAllocation::setRAM(uint8_t r)
 {
   this->RAM = r;
   refreshView();
 }
 
-void MemoryAllocation::setCore(int c)
+void MemoryAllocation::setCore(uint8_t c)
 {
-  this->core = 1 << c;
+  this->core = c;
   refreshView();
 }

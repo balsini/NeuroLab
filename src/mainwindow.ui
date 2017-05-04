@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>574</width>
-    <height>460</height>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -235,44 +235,43 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <widget class="QRadioButton" name="globalView">
+                 <widget class="QCheckBox" name="core_0_checkbox">
                   <property name="text">
-                   <string>Global View</string>
+                   <string>Core 0</string>
                   </property>
                   <property name="checked">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="RAMView">
+                 <widget class="QCheckBox" name="core_1_checkbox">
                   <property name="text">
-                   <string>RAMs used by CPU</string>
+                   <string>Core 1</string>
+                  </property>
+                  <property name="checked">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="coreSelector">
-                  <item>
-                   <property name="text">
-                    <string>Core 0</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 1</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Core 3</string>
-                   </property>
-                  </item>
+                 <widget class="QCheckBox" name="core_2_checkbox">
+                  <property name="text">
+                   <string>Core 2</string>
+                  </property>
+                  <property name="checked">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="core_3_checkbox">
+                  <property name="text">
+                   <string>Core 3</string>
+                  </property>
+                  <property name="checked">
+                   <bool>false</bool>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -510,54 +509,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>globalView</sender>
-   <signal>clicked()</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>setGlobalView()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>325</x>
-     <y>280</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>290</x>
-     <y>244</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>RAMView</sender>
-   <signal>clicked()</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>setRAMUsedByCPU()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>283</x>
-     <y>322</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>428</x>
-     <y>219</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>coreSelector</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>MemAllocView</receiver>
-   <slot>setCore(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>266</x>
-     <y>378</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>460</x>
-     <y>244</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>MemAllocView</sender>
    <signal>LRAM_0_counted(int)</signal>

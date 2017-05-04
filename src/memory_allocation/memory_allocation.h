@@ -13,16 +13,13 @@
 #include "WATERS/src/milpData.h"
 #include "WATERS/src/genetic.h"
 
-enum ViewKind { GLOBAL_RAM_VIEW, RAM_USED_BY_CPU_VIEW };
-
 class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Label>
 {
     Q_OBJECT
 
-    ViewKind viewKind;
     std::vector<Label> lastSolution;
     uint8_t RAM;
-    int core;
+    uint8_t core;
 
   public:
     MemoryAllocation(QObject *parent = Q_NULLPTR);
@@ -32,9 +29,8 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     std::vector<Label> crossover(const std::vector<Label> &a, const std::vector<Label> &b);
     void mutate(std::vector<Label> &c);
     std::vector<Label> getRandomSolution() const;
-    void setView(ViewKind v);
     void setRAM(uint8_t r);
-    void setCore(int c);
+    void setCore(uint8_t c);
     void refreshView();
 
   signals:

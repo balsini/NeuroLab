@@ -25,22 +25,12 @@ void MemoryAllocationDisplay::setScene(QGraphicsScene * scene)
           this, SLOT(RAM_occupations(int,int,int,int,int)));
 }
 
-void MemoryAllocationDisplay::setGlobalView()
-{
-  myscene->setView(GLOBAL_RAM_VIEW);
-}
-
-void MemoryAllocationDisplay::setRAMUsedByCPU()
-{
-  myscene->setView(RAM_USED_BY_CPU_VIEW);
-}
-
 void MemoryAllocationDisplay::setRAM(uint8_t r)
 {
   myscene->setRAM(r);
 }
 
-void MemoryAllocationDisplay::setCore(int c)
+void MemoryAllocationDisplay::setCore(uint8_t c)
 {
   myscene->setCore(c);
 }

@@ -182,3 +182,39 @@ void MainWindow::on_GRAM_checkbox_clicked()
 {
   update_memory_ram_chosen();
 }
+
+void MainWindow::update_core_chosen()
+{
+  uint8_t core = 0;
+
+  if (ui->core_0_checkbox->isChecked())
+    core |= 1 << 0;
+  if (ui->core_1_checkbox->isChecked())
+    core |= 1 << 1;
+  if (ui->core_2_checkbox->isChecked())
+    core |= 1 << 2;
+  if (ui->core_3_checkbox->isChecked())
+    core |= 1 << 3;
+
+  ui->MemAllocView->setCore(core);
+}
+
+void MainWindow::on_core_0_checkbox_clicked()
+{
+    update_core_chosen();
+}
+
+void MainWindow::on_core_1_checkbox_clicked()
+{
+    update_core_chosen();
+}
+
+void MainWindow::on_core_2_checkbox_clicked()
+{
+    update_core_chosen();
+}
+
+void MainWindow::on_core_3_checkbox_clicked()
+{
+    update_core_chosen();
+}

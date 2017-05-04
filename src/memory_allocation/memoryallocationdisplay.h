@@ -20,10 +20,8 @@ class MemoryAllocationDisplay : public QGraphicsView
     void resizeEvent(QResizeEvent *event);
 
   public slots:
-    void setGlobalView();
-    void setRAMUsedByCPU();
     void setRAM(uint8_t);
-    void setCore(int);
+    void setCore(uint8_t);
 
   public slots:
     void RAM_occupations(int a, int b, int c, int d, int e)
