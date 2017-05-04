@@ -341,7 +341,7 @@
                   <item>
                    <widget class="ButtonLegend" name="LRAM_2_legend">
                     <property name="styleSheet">
-                     <string notr="true">background-color: #00ff00</string>
+                     <string notr="true">background-color: #0000ff</string>
                     </property>
                     <property name="text">
                      <string/>
@@ -365,7 +365,7 @@
                   <item>
                    <widget class="ButtonLegend" name="LRAM_3_legend">
                     <property name="styleSheet">
-                     <string notr="true">background-color: #0000ff</string>
+                     <string notr="true">background-color: #00ff00</string>
                     </property>
                     <property name="text">
                      <string/>
