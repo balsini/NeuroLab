@@ -19,16 +19,15 @@ class GAErrorPlot : public QChartView
     QLineSeries _cost;
     QLineSeries _mean;
 
+    double _max;
+    double _min;
+
   public:
     GAErrorPlot(QWidget *parent = Q_NULLPTR);
     ~GAErrorPlot() { delete chart; }
     void addEpochValues(double min, double mean);
     void plot();
-    void clear() {
-      _epoch = 0;
-      _cost.clear();
-      _mean.clear();
-    }
+    void clear();
 };
 
 #endif // GAERRORPLOT_H
