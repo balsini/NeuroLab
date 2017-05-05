@@ -104,8 +104,7 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
     void removeWorst()
     {
-      for (unsigned int i=0; i<_kill; ++i)
-        population.pop_back();
+      population.erase(population.end() - _kill, population.end());
     }
 
     void crossover()
