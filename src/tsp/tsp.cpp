@@ -5,9 +5,11 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QBrush>
+#include <QGraphicsView>
 
 #include <algorithm>
 #include <cmath>
+#include <random>
 
 static const int radius = 8;
 static QBrush brush;
@@ -24,32 +26,40 @@ unsigned int TSP::getSolutionSize() const
   return targets.size();
 }
 
+void TSP::addProblemElement(int x, int y)
+{
+  QGraphicsItem *to_add;
+
+  to_add = addEllipse(0,0,
+                      radius, radius, QPen(), brush);
+  to_add->setPos(x, y);
+
+  targets.push_back(to_add);
+}
+
+void TSP::removeProblemElement(int x, int y)
+{
+  QGraphicsItem *to_delete;
+
+  to_delete = itemAt(x, y, QTransform());
+  if (to_delete) {
+    auto i = find(targets.begin(), targets.end(), to_delete);
+    if (i != targets.end()) {
+      targets.erase(i);
+      removeItem(to_delete);
+    }
+  }
+}
+
 void TSP::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
   switch (mouseEvent->button()) {
   case Qt::LeftButton:
-    QGraphicsItem *to_add;
-
-    to_add = addEllipse(0,0,
-                        radius, radius, QPen(), brush);
-    to_add->setPos(mouseEvent->scenePos().x(),
-                   mouseEvent->scenePos().y());
-
-    targets.push_back(to_add);
+    addProblemElement(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
     break;
   case Qt::RightButton:
-    QGraphicsItem *to_delete;
-
-    to_delete = itemAt(mouseEvent->scenePos().x(),
-                       mouseEvent->scenePos().y(),
-                       QTransform());
-    if (to_delete) {
-      auto i = find(targets.begin(), targets.end(), to_delete);
-      if (i != targets.end()) {
-        targets.erase(i);
-        removeItem(to_delete);
-      }
-    }
+    removeProblemElement(mouseEvent->scenePos().x(),
+                         mouseEvent->scenePos().y());
     break;
   default: break;
   }
@@ -177,4 +187,32 @@ std::vector<int> TSP::getRandomSolution() const
     std::swap(s[i], s[distribution(generator)]);
 
   return s;
+}
+
+void TSP::generateRandom(unsigned int size)
+{
+  qDebug() << "TODO generateRandom" << size;
+
+  QGraphicsView *view = this->views().first();
+
+  int w = view->width() - 10;
+  int h = view->height() - 10;
+
+  std::random_device r;
+  std::mt19937 e(r());
+  std::uniform_int_distribution<int> w_dist(0, w);
+  std::uniform_int_distribution<int> h_dist(0, h);
+
+  for (unsigned int i=0; i<size; ++i) {
+
+
+    addProblemElement(w_dist(e), h_dist(e));
+  }
+}
+
+void TSP::clear()
+{
+  targets.clear();
+  steps.clear();
+  QGraphicsScene::clear();
 }

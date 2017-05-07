@@ -28,6 +28,10 @@ class TSP : public QGraphicsScene, public GAOptimizationProblem<int>
     std::vector<int> crossover(const std::vector<int> &a, const std::vector<int> &b);
     void mutate(std::vector<int> &);
     std::vector<int> getRandomSolution() const;
+    void generateRandom(unsigned int);
+    void addProblemElement(int x, int y);
+    void removeProblemElement(int x, int y);
+    void clear();
 
   public slots:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);

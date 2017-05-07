@@ -44,6 +44,7 @@ class MainWindow : public QMainWindow
     void on_core_1_checkbox_clicked();
     void on_core_2_checkbox_clicked();
     void on_core_3_checkbox_clicked();
+    void on_generateTSP_clicked();
 
   private:
     Ui::MainWindow *ui;

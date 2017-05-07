@@ -202,3 +202,8 @@ void MainWindow::on_core_3_checkbox_clicked()
 {
   update_core_chosen();
 }
+
+void MainWindow::on_generateTSP_clicked()
+{
+  tsp->generateRandom(ui->generateTSPsize->value());
+}

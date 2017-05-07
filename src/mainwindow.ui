@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>574</width>
-    <height>461</height>
+    <height>485</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -212,7 +212,7 @@
         <item>
          <widget class="QTabWidget" name="geneticTab">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -220,7 +220,7 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_2">
             <item row="0" column="0">
-             <widget class="QGraphicsView" name="TSPView">
+             <widget class="TSPDisplay" name="TSPView">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -237,6 +237,34 @@
                </brush>
               </property>
              </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="clearTSP">
+              <property name="text">
+               <string>Clear</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QSpinBox" name="generateTSPsize">
+                <property name="maximum">
+                 <number>500</number>
+                </property>
+                <property name="value">
+                 <number>50</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="generateTSP">
+                <property name="text">
+                 <string>Generate Random</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -498,7 +526,7 @@
      <x>0</x>
      <y>0</y>
      <width>574</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
@@ -537,6 +565,14 @@
     <slot>showNumericalValue(int)</slot>
    </slots>
   </customwidget>
+  <customwidget>
+   <class>TSPDisplay</class>
+   <extends>QGraphicsView</extends>
+   <header>tsp/tspdisplay.h</header>
+   <slots>
+    <slot>clear()</slot>
+   </slots>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -551,8 +587,8 @@
      <y>223</y>
     </hint>
     <hint type="destinationlabel">
-     <x>522</x>
-     <y>273</y>
+     <x>539</x>
+     <y>308</y>
     </hint>
    </hints>
   </connection>
@@ -567,8 +603,8 @@
      <y>226</y>
     </hint>
     <hint type="destinationlabel">
-     <x>523</x>
-     <y>297</y>
+     <x>539</x>
+     <y>338</y>
     </hint>
    </hints>
   </connection>
@@ -583,8 +619,8 @@
      <y>212</y>
     </hint>
     <hint type="destinationlabel">
-     <x>523</x>
-     <y>329</y>
+     <x>539</x>
+     <y>368</y>
     </hint>
    </hints>
   </connection>
@@ -599,8 +635,8 @@
      <y>151</y>
     </hint>
     <hint type="destinationlabel">
-     <x>523</x>
-     <y>361</y>
+     <x>539</x>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -615,8 +651,24 @@
      <y>161</y>
     </hint>
     <hint type="destinationlabel">
-     <x>518</x>
+     <x>539</x>
+     <y>428</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearTSP</sender>
+   <signal>clicked()</signal>
+   <receiver>TSPView</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
      <y>394</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>352</x>
+     <y>329</y>
     </hint>
    </hints>
   </connection>

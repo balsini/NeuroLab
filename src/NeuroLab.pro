@@ -45,7 +45,8 @@ SOURCES += \
     memory_allocation/WATERS/src/Runnable2.cpp \
     memory_allocation/WATERS/src/strtools.cpp \
     memory_allocation/WATERS/src/Task2.cpp \
-    memory_allocation/buttonlegend.cpp
+    memory_allocation/buttonlegend.cpp \
+    tsp/tspdisplay.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -72,6 +73,7 @@ HEADERS  += \
     memory_allocation/WATERS/src/shared.h \
     memory_allocation/WATERS/src/strtools.h \
     memory_allocation/WATERS/src/Task2.h \
-    memory_allocation/buttonlegend.h
+    memory_allocation/buttonlegend.h \
+    tsp/tspdisplay.h
 
 FORMS    += mainwindow.ui
