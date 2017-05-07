@@ -29,6 +29,11 @@ MemoryAllocation::MemoryAllocation(QObject *parent) :
   initialize_waters_data();
 }
 
+unsigned int MemoryAllocation::getSolutionSize() const
+{
+  return get_genes_size_waters_GA();
+}
+
 double MemoryAllocation::evaluateSolution(const std::vector<Label> &s) const
 {
   return computeResponseTime(s);
@@ -68,33 +73,33 @@ void MemoryAllocation::refreshView()
       //color.setRgbF(1.0, 0, 0);
 
       if (((lastSolution.at(counter).used_by_CPU & this->core) != this->core)
-            || ((lastSolution.at(counter).ram & this->RAM) == 0)) {
-          color.setRgbF(0, 0, 0);
+          || ((lastSolution.at(counter).ram & this->RAM) == 0)) {
+        color.setRgbF(0, 0, 0);
       } else {
         switch(lastSolution.at(counter).ram) {
-          case 	LRAM_0:
-            color.setRgbF(1, 1, 0);
-            ++ram_occupancy[0];
-            break;
-          case 	LRAM_1:
-            color.setRgbF(1, 0, 1);
-            ++ram_occupancy[1];
-            break;
-          case 	LRAM_2:
-            color.setRgbF(0, 0, 1);
-            ++ram_occupancy[2];
-            break;
-          case 	LRAM_3:
-            color.setRgbF(0, 1, 0);
-            ++ram_occupancy[3];
-            break;
-          case 	GRAM:
-            color.setRgbF(1, 0, 0);
-            ++ram_occupancy[4];
-            break;
-          default:
-            qDebug() << "Error: wrong switch in refreshView()";
-            break;
+        case 	LRAM_0:
+          color.setRgbF(1, 1, 0);
+          ++ram_occupancy[0];
+          break;
+        case 	LRAM_1:
+          color.setRgbF(1, 0, 1);
+          ++ram_occupancy[1];
+          break;
+        case 	LRAM_2:
+          color.setRgbF(0, 0, 1);
+          ++ram_occupancy[2];
+          break;
+        case 	LRAM_3:
+          color.setRgbF(0, 1, 0);
+          ++ram_occupancy[3];
+          break;
+        case 	GRAM:
+          color.setRgbF(1, 0, 0);
+          ++ram_occupancy[4];
+          break;
+        default:
+          qDebug() << "Error: wrong switch in refreshView()";
+          break;
         }
       }
 

@@ -19,34 +19,39 @@ TSP::TSP(QObject *parent) :
   brush.setColor(Qt::red);
 }
 
+unsigned int TSP::getSolutionSize() const
+{
+  return targets.size();
+}
+
 void TSP::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
   switch (mouseEvent->button()) {
-    case Qt::LeftButton:
-      QGraphicsItem *to_add;
+  case Qt::LeftButton:
+    QGraphicsItem *to_add;
 
-      to_add = addEllipse(0,0,
-                          radius, radius, QPen(), brush);
-      to_add->setPos(mouseEvent->scenePos().x(),
-                     mouseEvent->scenePos().y());
+    to_add = addEllipse(0,0,
+                        radius, radius, QPen(), brush);
+    to_add->setPos(mouseEvent->scenePos().x(),
+                   mouseEvent->scenePos().y());
 
-      targets.push_back(to_add);
-      break;
-    case Qt::RightButton:
-      QGraphicsItem *to_delete;
+    targets.push_back(to_add);
+    break;
+  case Qt::RightButton:
+    QGraphicsItem *to_delete;
 
-      to_delete = itemAt(mouseEvent->scenePos().x(),
-                         mouseEvent->scenePos().y(),
-                         QTransform());
-      if (to_delete) {
-        auto i = find(targets.begin(), targets.end(), to_delete);
-        if (i != targets.end()) {
-          targets.erase(i);
-          removeItem(to_delete);
-        }
+    to_delete = itemAt(mouseEvent->scenePos().x(),
+                       mouseEvent->scenePos().y(),
+                       QTransform());
+    if (to_delete) {
+      auto i = find(targets.begin(), targets.end(), to_delete);
+      if (i != targets.end()) {
+        targets.erase(i);
+        removeItem(to_delete);
       }
-      break;
-    default: break;
+    }
+    break;
+  default: break;
   }
 }
 

@@ -23,7 +23,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
 
   public:
     MemoryAllocation(QObject *parent = Q_NULLPTR);
-    unsigned int getSolutionSize() const { return get_genes_size_waters_GA(); }
+    unsigned int getSolutionSize() const;
     double evaluateSolution(const std::vector<Label> &s) const;
     void showSolution(const std::vector<Label> &newSolution);
     std::vector<Label> crossover(const std::vector<Label> &a, const std::vector<Label> &b);

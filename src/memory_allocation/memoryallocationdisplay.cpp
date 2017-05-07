@@ -34,3 +34,12 @@ void MemoryAllocationDisplay::setCore(uint8_t c)
 {
   myscene->setCore(c);
 }
+
+void MemoryAllocationDisplay::RAM_occupations(int a, int b, int c, int d, int e)
+{
+  emit LRAM_0_counted(a);
+  emit LRAM_1_counted(b);
+  emit LRAM_2_counted(c);
+  emit LRAM_3_counted(d);
+  emit GRAM_counted(e);
+}

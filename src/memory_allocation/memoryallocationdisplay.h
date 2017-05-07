@@ -24,14 +24,7 @@ class MemoryAllocationDisplay : public QGraphicsView
     void setCore(uint8_t);
 
   public slots:
-    void RAM_occupations(int a, int b, int c, int d, int e)
-    {
-      emit LRAM_0_counted(a);
-      emit LRAM_1_counted(b);
-      emit LRAM_2_counted(c);
-      emit LRAM_3_counted(d);
-      emit GRAM_counted(e);
-    }
+    void RAM_occupations(int LRAM0, int LRAM1, int LRAM2, int LRAM3, int GRAM);
 
   signals:
     void LRAM_0_counted(int);

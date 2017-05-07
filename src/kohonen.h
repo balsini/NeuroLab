@@ -4,8 +4,8 @@
 
 class Kohonen
 {
-	public:
-		Kohonen();
+  public:
+    Kohonen();
 };
 
 #endif // KOHONEN_H

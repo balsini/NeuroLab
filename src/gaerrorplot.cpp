@@ -22,7 +22,7 @@ GAErrorPlot::GAErrorPlot(QWidget *parent)
 
   chart->setTitle("Fitness function");
 
-  _cost.setName("Minimum");
+  _cost.setName("Best in population");
   _mean.setName("Mean population value");
   chart->addSeries(&_cost);
   chart->addSeries(&_mean);
@@ -31,7 +31,7 @@ GAErrorPlot::GAErrorPlot(QWidget *parent)
 
 GAErrorPlot::~GAErrorPlot()
 {
-    delete chart;
+  delete chart;
 }
 
 

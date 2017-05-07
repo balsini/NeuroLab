@@ -77,16 +77,16 @@ void MainWindow::on_GA_run_clicked()
   gas.mutate_to = ui->GA_mutate_to->value() / 100.0 * gas.population_size;
 
   switch (ui->geneticTab->currentIndex()) {
-    case 0:
-      g = new GeneticAlgorithm_Specialized<int>(gas);
-      dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
-      break;
-    case 1:
-      g = new GeneticAlgorithm_Specialized<Label>(gas);
-      dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
-      break;
-    default:
-      return;
+  case 0:
+    g = new GeneticAlgorithm_Specialized<int>(gas);
+    dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
+    break;
+  case 1:
+    g = new GeneticAlgorithm_Specialized<Label>(gas);
+    dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
+    break;
+  default:
+    return;
   }
 
   ui->TSPView->setEnabled(false);
@@ -121,7 +121,7 @@ void MainWindow::GA_result_ready(GeneticAlgorithm *g)
 
 void MainWindow::on_GA_stop_clicked()
 {
-    workerThread->stop();
+  workerThread->stop();
 }
 
 void MainWindow::update_memory_ram_chosen()
@@ -185,20 +185,20 @@ void MainWindow::update_core_chosen()
 
 void MainWindow::on_core_0_checkbox_clicked()
 {
-    update_core_chosen();
+  update_core_chosen();
 }
 
 void MainWindow::on_core_1_checkbox_clicked()
 {
-    update_core_chosen();
+  update_core_chosen();
 }
 
 void MainWindow::on_core_2_checkbox_clicked()
 {
-    update_core_chosen();
+  update_core_chosen();
 }
 
 void MainWindow::on_core_3_checkbox_clicked()
 {
-    update_core_chosen();
+  update_core_chosen();
 }

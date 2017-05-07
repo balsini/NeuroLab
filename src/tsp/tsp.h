@@ -22,7 +22,7 @@ class TSP : public QGraphicsScene, public GAOptimizationProblem<int>
     TSP(QObject *parent = Q_NULLPTR);
     std::vector<Coordinate> getTargets();
     void setPath(const std::vector<Coordinate> &steps);
-    unsigned int getSolutionSize() const { return targets.size(); }
+    unsigned int getSolutionSize() const;
     double evaluateSolution(const std::vector<int> &s) const;
     void showSolution(const std::vector<int> &s);
     std::vector<int> crossover(const std::vector<int> &a, const std::vector<int> &b);

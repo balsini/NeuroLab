@@ -31,7 +31,7 @@ class GeneticAlgorithm
     unsigned int _genes;
 
   public:
-     GeneticAlgorithm(GA_settings_t g) :
+    GeneticAlgorithm(GA_settings_t g) :
       _gas(g) {}
     virtual ~GeneticAlgorithm() {}
 
@@ -106,8 +106,8 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
       while (population.size() < _gas.population_size) {
         population.push_back(std::make_pair(_problem->crossover(population[d(generator)].first,
-                                                                population[d(generator)].first),
-                                            0.0));
+                                            population[d(generator)].first),
+            0.0));
       }
     }
 
