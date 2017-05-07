@@ -27,8 +27,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
   memory_allocation = new MemoryAllocation(this);
   ui->MemAllocView->setScene(memory_allocation);
-
-  on_GA_identical_valueChanged(ui->GA_identical->value());
 }
 
 MainWindow::~MainWindow()
@@ -52,22 +50,6 @@ void MainWindow::on_hopfieldLoadImage_clicked()
   h.loadData("/home/alessio/git/NeuroLab/data/hopfield_00.txt");
 }
 
-void MainWindow::on_GA_identical_valueChanged(double v)
-{
-  ui->GA_mutate->setValue(100 - v - ui->GA_recombine->value());
-  if (ui->GA_mutate->value() == 0) {
-    ui->GA_recombine->setValue(100 - v);
-  }
-}
-
-void MainWindow::on_GA_recombine_valueChanged(double v)
-{
-  ui->GA_mutate->setValue(100 - ui->GA_identical->value() - v);
-  if (ui->GA_mutate->value() == 0) {
-    ui->GA_identical->setValue(100 - v);
-  }
-}
-
 void MainWindow::on_GA_run_clicked()
 {
   //auto p = tsp->getTargets();
@@ -83,22 +65,24 @@ void MainWindow::on_GA_run_clicked()
 
   qDebug() << "Current tab index: " << ui->geneticTab->currentIndex();
 
+  GA_settings_t gas;
+
+  gas.epochs = ui->GA_epochs->text().toInt();
+  gas.population_size = ui->GA_population->text().toInt();
+  gas.survivors = ui->GA_survivors->value() / 100.0 * gas.population_size;
+  gas.identical = ui->GA_identical->value() / 100.0 * gas.population_size;
+  gas.recombine_from = ui->GA_recombine_from->value() / 100.0 * gas.population_size;
+  gas.recombine_to = ui->GA_recombine_to->value() / 100.0 * gas.population_size;
+  gas.mutate_from = ui->GA_mutate_from->value() / 100.0 * gas.population_size;
+  gas.mutate_to = ui->GA_mutate_to->value() / 100.0 * gas.population_size;
+
   switch (ui->geneticTab->currentIndex()) {
     case 0:
-      g = new GeneticAlgorithm_Specialized<int>(ui->GA_epochs->text().toInt(),
-                                    ui->GA_population->text().toInt(),
-                                    ui->GA_survivors->value() / 100.0,
-                                    ui->GA_identical->value() / 100.0,
-                                    ui->GA_recombine->value() / 100.0);
-
+      g = new GeneticAlgorithm_Specialized<int>(gas);
       dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
       break;
     case 1:
-      g = new GeneticAlgorithm_Specialized<Label>(ui->GA_epochs->text().toInt(),
-                                    ui->GA_population->text().toInt(),
-                                    ui->GA_survivors->value() / 100.0,
-                                    ui->GA_identical->value() / 100.0,
-                                    ui->GA_recombine->value() / 100.0);
+      g = new GeneticAlgorithm_Specialized<Label>(gas);
       dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
       break;
     default:

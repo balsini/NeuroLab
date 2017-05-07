@@ -13,36 +13,31 @@
 
 #include "optimizationproblem.h"
 
+struct GA_settings_t {
+    unsigned int epochs;
+    unsigned int population_size;
+    unsigned int survivors;
+    unsigned int identical;
+    unsigned int recombine_from;
+    unsigned int recombine_to;
+    unsigned int mutate_from;
+    unsigned int mutate_to;
+};
+
 class GeneticAlgorithm
 {
   protected:
-    unsigned int _epochs;
-    unsigned int _size;
-    unsigned int _survivors;
-    unsigned int _identical;
-    unsigned int _recombine;
-    unsigned int _mutate;
-    unsigned int _kill;
+    GA_settings_t _gas;
     unsigned int _genes;
 
   public:
-     GeneticAlgorithm(unsigned int epochs,
-                             unsigned int size,
-                             double survivors,
-                             double identical,
-                             double recombine) :
-      _epochs(epochs),
-      _size(size),
-      _survivors(size * survivors),
-      _identical(_survivors * identical),
-      _recombine(_survivors * recombine),
-      _mutate(_survivors - _identical - _recombine),
-      _kill(_size - _survivors) {}
+     GeneticAlgorithm(GA_settings_t g) :
+      _gas(g) {}
     virtual ~GeneticAlgorithm() {}
 
     virtual std::pair<double, double> run_init() = 0;
     virtual std::pair<double, double> run_step() = 0;
-    unsigned int get_epochs() const { return _epochs; }
+    unsigned int get_epochs() const { return _gas.epochs; }
     virtual void reorder() = 0;
     virtual void removeWorst() = 0;
     virtual void crossover() = 0;
@@ -64,12 +59,8 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
     GAOptimizationProblem<Gene> *_problem;
 
   public:
-    GeneticAlgorithm_Specialized(unsigned int epochs,
-                                 unsigned int size,
-                                 double survivors,
-                                 double identical,
-                                 double recombine) :
-      GeneticAlgorithm(epochs, size, survivors, identical, recombine)
+    GeneticAlgorithm_Specialized(GA_settings_t g) :
+      GeneticAlgorithm(g)
     {}
 
     void setProblem(GAOptimizationProblem<Gene> *p)
@@ -104,37 +95,33 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
     void removeWorst()
     {
-      population.erase(population.end() - _kill, population.end());
+      population.erase(population.end() - _gas.population_size + _gas.survivors, population.end());
     }
 
     void crossover()
     {
-      static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-      static std::default_random_engine generator(seed);
-      std::uniform_int_distribution<int> d1(0, _identical);
-      std::uniform_int_distribution<int> d2(0, _identical);
+      std::random_device rd;
+      std::mt19937 generator(rd());
+      std::uniform_int_distribution<int> d(_gas.recombine_from, _gas.recombine_to);
 
-      while (population.size() < _size) {
-        population.push_back(std::make_pair(_problem->crossover(population[d1(generator)].first,
-                                            population[d2(generator)].first),
-            0.0));
+      while (population.size() < _gas.population_size) {
+        population.push_back(std::make_pair(_problem->crossover(population[d(generator)].first,
+                                                                population[d(generator)].first),
+                                            0.0));
       }
     }
 
     void mutation()
     {
-      for (unsigned int i=_identical; i<_identical+_mutate; ++i) {
-        Chromosome &c = population[i].first;
-
-        _problem->mutate(c);
-      }
+      for (unsigned int i=_gas.mutate_from; i<_gas.mutate_to; ++i)
+        _problem->mutate(population[i].first);
     }
 
     std::pair<double, double> run_init()
     {
       double mean;
 
-      population.resize(_size);
+      population.resize(_gas.population_size);
       _genes = _problem->getSolutionSize();
 
       if (_genes < 2)
@@ -184,10 +171,12 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       std::cout << "Population:\t" << population.size() << std::endl;
       std::cout << "Gene Type:\t" << typeid(Gene).name() << std::endl;
       std::cout << "Genes:\t" << _genes << std::endl;
-      std::cout << "Survivors:\t" << _survivors << std::endl;
-      std::cout << "Identical:\t" << _identical << std::endl;
-      std::cout << "Recombine:\t" << _recombine << std::endl;
-      std::cout << "Mutate:\t" << _mutate << std::endl;
+      std::cout << "Survivors:\t" << _gas.survivors << std::endl;
+      std::cout << "Identical:\t" << _gas.identical << std::endl;
+      std::cout << "Recombine from:\t" << _gas.recombine_from << std::endl;
+      std::cout << "Recombine to:\t" << _gas.recombine_to << std::endl;
+      std::cout << "Mutate from:\t" << _gas.mutate_from << std::endl;
+      std::cout << "Mutate to:\t" << _gas.mutate_to << std::endl;
       std::cout << "----------------" << std::endl;
     }
 

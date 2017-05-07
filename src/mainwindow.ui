@@ -106,48 +106,14 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="0">
-             <widget class="QDoubleSpinBox" name="GA_recombine">
-              <property name="maximum">
-               <double>100.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>4.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Recombine (%)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QDoubleSpinBox" name="GA_mutate">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="maximum">
-               <double>100.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Mutate (%)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0">
+            <item row="13" column="0">
              <widget class="QPushButton" name="GA_run">
               <property name="text">
                <string>Run</string>
               </property>
              </widget>
             </item>
-            <item row="9" column="0">
+            <item row="14" column="0">
              <widget class="QPushButton" name="GA_stop">
               <property name="enabled">
                <bool>false</bool>
@@ -157,17 +123,82 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="0">
+            <item row="15" column="0">
              <widget class="QLabel" name="label_6">
               <property name="text">
                <string>Solution Cost</string>
               </property>
              </widget>
             </item>
-            <item row="10" column="1">
+            <item row="15" column="1">
              <widget class="QLineEdit" name="GA_cost">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QDoubleSpinBox" name="GA_mutate_from">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>5.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="GA_mutate_to">
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>95.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="12" column="1">
+             <widget class="QLabel" name="label_4">
+              <property name="text">
+               <string>Mutate (%)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="11" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QDoubleSpinBox" name="GA_recombine_from">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="GA_recombine_to">
+                <property name="maximum">
+                 <double>100.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>7.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="11" column="1">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Recombine (%)</string>
               </property>
              </widget>
             </item>
