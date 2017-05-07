@@ -2,26 +2,36 @@
 
 #include <QBarCategoryAxis>
 #include <QValueAxis>
+#include <QLegend>
 
 GAErrorPlot::GAErrorPlot(QWidget *parent)
   : QChartView(parent)
 {
   _epoch = 0;
 
-  chart = new QChart();
+  chart = new QChart;
 
   //chart->setTitle("Cost");
   //chart->setAnimationOptions(QChart::SeriesAnimations);
 
-  chart->legend()->setVisible(false);
-  //chart->legend()->setAlignment(Qt::AlignBottom);
-
+  //chart->legend()->setVisible(false);
+  chart->legend()->setAlignment(Qt::AlignBottom);
   //setRenderHint(QPainter::Antialiasing);
 
   this->setChart(chart);
 
+  chart->setTitle("Fitness function");
+
+  _cost.setName("Minimum");
+  _mean.setName("Mean population value");
   chart->addSeries(&_cost);
   chart->addSeries(&_mean);
+}
+
+
+GAErrorPlot::~GAErrorPlot()
+{
+    delete chart;
 }
 
 

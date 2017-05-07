@@ -24,7 +24,7 @@ class GAErrorPlot : public QChartView
 
   public:
     GAErrorPlot(QWidget *parent = Q_NULLPTR);
-    ~GAErrorPlot() { delete chart; }
+    ~GAErrorPlot();
     void addEpochValues(double min, double mean);
     void plot();
     void clear();
