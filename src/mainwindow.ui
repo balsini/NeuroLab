@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>574</width>
-    <height>485</height>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -212,7 +212,7 @@
         <item>
          <widget class="QTabWidget" name="geneticTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -526,7 +526,7 @@
      <x>0</x>
      <y>0</y>
      <width>574</width>
-     <height>19</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

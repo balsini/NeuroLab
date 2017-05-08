@@ -3,6 +3,8 @@
 #include <QDebug>
 
 #include <QGraphicsSceneMouseEvent>
+#include <QMenu>
+#include <QPoint>
 #include <QPen>
 #include <QBrush>
 #include <QColor>
@@ -153,4 +155,38 @@ void MemoryAllocation::setCore(uint8_t c)
 {
   this->core = c;
   refreshView();
+}
+
+void	MemoryAllocation::mousePressEvent(QGraphicsSceneMouseEvent *e)
+{
+  QMenu menu(this->views().first());
+  QPoint mp = e->screenPos();
+  //QPoint mp = e->scenePos().toPoint();
+
+  QGraphicsView *view = this->views().first();
+  int w = view->width() - 3;
+  int h = view->height() - 3;
+
+  //qDebug() << "Solution found, window size: [" << w << " - " << h << "]";
+
+  unsigned int columns = floor(sqrt(lastSolution.size()));
+  unsigned int rows = ceil(sqrt(lastSolution.size()));
+
+  //qDebug() << "Matrix size: [" << rows << " - " << columns << "]";
+
+  qreal rect_width = static_cast<double>(w) / columns;
+  qreal rect_height = static_cast<double>(h) / rows;
+
+  qDebug() << "scene::mousePressEvent in" << mp << e->scenePos();
+  switch (e->button()) {
+    case Qt::RightButton:
+      menu.addAction("Label id: " + QString::number(0));
+      menu.addSeparator();
+      menu.addAction("B");
+      menu.addAction("C");
+      menu.exec(mp);
+      break;
+    default:
+      break;
+  }
 }
