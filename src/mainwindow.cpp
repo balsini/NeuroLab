@@ -70,7 +70,6 @@ void MainWindow::on_GA_run_clicked()
   gas.epochs = ui->GA_epochs->text().toInt();
   gas.population_size = ui->GA_population->text().toInt();
   gas.survivors = ui->GA_survivors->value() / 100.0 * gas.population_size;
-  gas.identical = ui->GA_identical->value() / 100.0 * gas.population_size;
   gas.recombine_from = ui->GA_recombine_from->value() / 100.0 * gas.population_size;
   gas.recombine_to = ui->GA_recombine_to->value() / 100.0 * gas.population_size;
   gas.mutate_from = ui->GA_mutate_from->value() / 100.0 * gas.population_size;

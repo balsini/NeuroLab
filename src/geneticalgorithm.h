@@ -14,12 +14,20 @@
 #include "optimizationproblem.h"
 
 struct GA_settings_t {
-    unsigned int epochs;
-    unsigned int population_size;
-    unsigned int survivors;
-    unsigned int identical;
+    unsigned int epochs;          /* Number of genetic algorithm iterations */
+    unsigned int population_size; /* Number of chromosomes */
+    unsigned int survivors;       /* Number of chromosomes that stay alive
+                                   * after each iteration */
+
+    /* The list of elements that can be chosen as parent for the recombination
+     * is bounded in the interval [recombine_from, recombine_to].
+     * The total number of children from recombination is equal to the
+     * population size minus the number of survivors */
     unsigned int recombine_from;
     unsigned int recombine_to;
+
+    /* The list of elements that can be chosen for mutation is bounded in the
+     * interval [mutate_from, mutate_to] */
     unsigned int mutate_from;
     unsigned int mutate_to;
 };
@@ -172,7 +180,6 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       std::cout << "Gene Type:\t" << typeid(Gene).name() << std::endl;
       std::cout << "Genes:\t" << _genes << std::endl;
       std::cout << "Survivors:\t" << _gas.survivors << std::endl;
-      std::cout << "Identical:\t" << _gas.identical << std::endl;
       std::cout << "Recombine from:\t" << _gas.recombine_from << std::endl;
       std::cout << "Recombine to:\t" << _gas.recombine_to << std::endl;
       std::cout << "Mutate from:\t" << _gas.mutate_from << std::endl;
