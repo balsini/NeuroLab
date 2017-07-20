@@ -1,5 +1,7 @@
-From the `src` folder, run
+From the folder where you want to store the repository, run:
 
 ```
-$ git clone -b 2017 https://github.com/balsini/WATERS/ memory_allocation/WATERS
+$ git clone --recursive https://github.com/balsini/NeuroLab.git
 ```
+
+[![Build Status](https://travis-ci.org/balsini/NeuroLab.svg?branch=master)](https://travis-ci.org/balsini/NeuroLab)

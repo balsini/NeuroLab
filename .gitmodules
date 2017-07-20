@@ -1,0 +1,4 @@
+[submodule "src/memory_allocation/WATERS"]
+	path = src/memory_allocation/WATERS
+	url = https://github.com/balsini/WATERS.git
+	branch = 2017
