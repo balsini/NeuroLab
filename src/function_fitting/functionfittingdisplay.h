@@ -19,9 +19,7 @@ class FunctionFittingDisplay : public QChartView
     void resizeEvent(QResizeEvent *event);
 
   public slots:
-    void clear() {
-      myscene->clear();
-    }
+    void clear();
 };
 
 #endif // FUNCTIONFITTINGDISPLAY_H

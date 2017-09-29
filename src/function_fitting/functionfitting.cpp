@@ -20,14 +20,18 @@ FunctionFitting::FunctionFitting(QGraphicsItem *parent) :
   brush.setStyle(Qt::SolidPattern);
   brush.setColor(Qt::red);
 
+  for (unsigned int i=0; i<function.dataSize(); ++i)
+    reference_series.append(function.x(i), function.y(i));
+
+  /*
   for (int i=-100; i<=100; i+=30)
     reference_series.append(i, i*i*i);
-
+  */
   //chart->setTitle("Cost");
   //chart->setAnimationOptions(QChart::SeriesAnimations);
 
-  //chart->legend()->setVisible(false);
-  legend()->setAlignment(Qt::AlignBottom);
+  legend()->setVisible(false);
+  //legend()->setAlignment(Qt::AlignBottom);
   //setRenderHint(QPainter::Antialiasing);
 
   //this->setChart(chart->chart());
@@ -41,7 +45,7 @@ FunctionFitting::FunctionFitting(QGraphicsItem *parent) :
 
 unsigned int FunctionFitting::getSolutionSize() const
 {
-  return variables;
+  return function.dimension();
 }
 
 void FunctionFitting::addProblemElement(int x, int y)
@@ -75,7 +79,6 @@ void FunctionFitting::removeProblemElement(int x, int y)
 
 std::vector<Coordinate> FunctionFitting::getTargets()
 {
-
   std::vector<Coordinate> ret;
 /*
   for (QGraphicsItem *p : targets)
@@ -106,19 +109,14 @@ void FunctionFitting::setPath(const std::vector<Coordinate> &s)
 double FunctionFitting::evaluateSolution(const std::vector<long double> &s) const
 {
   double _cost = 0;
-  /*
-  for (unsigned int i=0; i<s.size(); ++i) {
-    int x1, x2, y1, y2;
 
-    x1 = targets[s[i]]->x();
-    x2 = targets[s[(i + 1) % s.size()]]->x();
+  for (unsigned int i=0; i<function.dataSize(); ++i) {
+    double y = function.y(i);
+    double yt = function.evaluate(function.x(i), s);
 
-    y1 = targets[s[i]]->y();
-    y2 = targets[s[(i + 1) % s.size()]]->y();
-
-    _cost += sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+    _cost += sqrt((y - yt) * (y - yt));
   }
-  */
+
   return _cost;
 }
 
@@ -138,75 +136,48 @@ void FunctionFitting::showSolution(const std::vector<long double> &s)
   */
 
   ga_series.clear();
-  for (int i=-100; i<=100; i+=30)
-    ga_series.append(i, i*i);
+  for (int i=0; i<function.dataSize(); ++i) {
+    auto x = function.x(i);
+    auto y = function.evaluate(x, s);
+    ga_series.append(x, y);
+  }
 }
 
-std::vector<long double> FunctionFitting::crossover(const std::vector<long double> &a, const std::vector<long double> &b)
+std::vector<long double> FunctionFitting::crossover(const std::vector<long double> &a,
+                                                    const std::vector<long double> &b)
 {
   std::vector<long double> ret;
-  /*
-  std::vector<long double> sub_sol;
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine generator(seed);
-  std::uniform_int_distribution<int> d1(0, a.size() - 2);
-  unsigned int c1, c2;
-  unsigned int i;
+  static std::default_random_engine g(seed);
+  std::uniform_int_distribution<int> d(0, 1);
 
-  c1 = d1(generator);
+  for (unsigned int i=0; i<a.size(); ++i)
+    ret.push_back(d(g) == 0 ? a[i] : b[i]);
 
-  std::uniform_int_distribution<int> d2(c1 + 1, targets.size() - 1);
-
-  c2 = d2(generator);
-
-  for (i=c1; i<c2; ++i)
-    sub_sol.push_back(a[i]);
-
-  i = 0;
-  while (ret.size() < c1) {
-    if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
-      ret.push_back(b[i]);
-    ++i;
-  }
-
-  for (auto v : sub_sol)
-    ret.push_back(v);
-
-  while (ret.size() < a.size()) {
-    if (std::find(sub_sol.begin(), sub_sol.end(), b[i]) == sub_sol.end())
-      ret.push_back(b[i]);
-    ++i;
-  }
-  */
   return ret;
 }
 
 void FunctionFitting::mutate(std::vector<long double> &c)
 {
-  /*
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine generator(seed);
-  std::uniform_int_distribution<int> d(0, c.size() - 1);
+  static std::default_random_engine g(seed);
+  std::uniform_real_distribution<long double> s(-0.2, 0.2);
+  std::uniform_real_distribution<long double> b(-10, 10);
 
-  std::swap(c[d(generator)], c[d(generator)]);
-  */
+  for (unsigned int i=0; i<c.size(); ++i)
+    c[i] += c[i] * s(g) + b(g);
 }
 
 std::vector<long double> FunctionFitting::getRandomSolution() const
 {
   std::vector<long double> s;
-  /*
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-  static std::default_random_engine generator(seed);
-  std::uniform_real_distribution<long double> distribution(0, targets.size() - 1);
+  static std::default_random_engine g(seed);
+  std::uniform_real_distribution<long double> d(-10000000000, 10000000000);
 
+  for (unsigned int i=0; i<function.dimension(); ++i)
+    s.push_back(d(g));
 
-  for (unsigned int i=0; i<targets.size(); ++i)
-    s.push_back(i);
-
-  for (unsigned int i=0; i<s.size(); ++i)
-    std::swap(s[i], s[distribution(generator)]);
-  */
   return s;
 }
 

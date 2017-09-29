@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "optimizationproblem.h"
+#include "function_fitting/advanced_0/function.h"
 
 using namespace QtCharts;
 
@@ -20,9 +21,9 @@ class FunctionFitting : public QChart, public GAOptimizationProblem<long double>
 {
     Q_OBJECT
 
+    FunctionToFit function;
     QScatterSeries reference_series;
     QLineSeries ga_series;
-    unsigned int variables;
 
   public:
     FunctionFitting(QGraphicsItem *parent = Q_NULLPTR);

@@ -5,11 +5,15 @@
 #include <vector>
 
 class FunctionToFit {
-    std::map<unsigned int, std::vector<double>> data;
-
+    std::map<double, std::vector<double>> data;
+    unsigned int variables;
   public:
     FunctionToFit();
-    double evaluate(double CPU_freq, double params[]);
+    double evaluate(const double x, const std::vector<long double> &p) const;
+    long double x(unsigned int index) const;
+    long double y(unsigned int index) const;
+    unsigned int dataSize() const;
+    unsigned int dimension() const { return variables; }
 };
 
 #endif

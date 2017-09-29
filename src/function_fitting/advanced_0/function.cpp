@@ -2,6 +2,8 @@
 
 FunctionToFit::FunctionToFit()
 {
+  variables = 3;
+
   data[200000] = {1.220887347, 8319726.652061044};
   data[300000] = {0.90306089, 11235108.410020946};
   data[400000] = {0.751605932, 13488865.066594498};
@@ -23,23 +25,48 @@ FunctionToFit::FunctionToFit()
   data[2000000] = {0.52580657, 19246522.537746154};
 }
 
-double FunctionToFit::evaluate(double CPU_freq, double params[])
+double FunctionToFit::evaluate(const double x, const std::vector<long double> &p) const
 {
-  double TOTAL_INSTR = params[1];
-  double CPU_instr = TOTAL_INSTR * params[2];
+  double TOTAL_INSTR = p[1];
+  double CPU_instr = TOTAL_INSTR * p[2];
   double IPC = 1.6;
   double MPC = 1.0 / 150.0;
   double RAM_freq = 933.0;
 
   double MEM_instr = TOTAL_INSTR - CPU_instr;
-  double T_CPU = CPU_instr * IPC / CPU_freq;
+  double T_CPU = CPU_instr * IPC / x;
 
-  double T_CACHE_OP = IPC / CPU_freq;
+  double T_CACHE_OP = IPC / x;
   double T_MEM_OP = MPC / RAM_freq;
 
-  double CACHE_OPS = data[CPU_freq][1] * params[0];
+  double v = data.at(x)[1];
+
+  double CACHE_OPS = 1 / (v * p[0]);
 
   double T_MEM = MEM_instr * (CACHE_OPS * T_CACHE_OP + (1.0 - CACHE_OPS) * T_MEM_OP);
 
   return T_CPU + T_MEM;
+}
+
+long double FunctionToFit::x(unsigned int index) const
+{
+  auto v = data.cbegin();
+
+  std::advance(v, index);
+
+  return (*v).first;
+}
+
+long double FunctionToFit::y(unsigned int index) const
+{
+  auto v = data.cbegin();
+
+  std::advance(v, index);
+
+  return (*v).second[0];
+}
+
+unsigned int FunctionToFit::dataSize() const
+{
+  return data.size();
 }
