@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
   tsp = new TSP(this);
   ui->TSPView->setScene(tsp);
 
+  function_fitting = new FunctionFitting();
+  ui->FunctionFittingView->setScene(function_fitting);
+
   memory_allocation = new MemoryAllocation(this);
   ui->MemAllocView->setScene(memory_allocation);
 }
@@ -80,10 +83,14 @@ void MainWindow::on_GA_run_clicked()
     g = new GeneticAlgorithm_Specialized<int>(gas);
     dynamic_cast<GeneticAlgorithm_Specialized<int> *>(g)->setProblem(tsp);
     break;
-  case 1:
-    g = new GeneticAlgorithm_Specialized<Label>(gas);
-    dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
-    break;
+    case 1:
+      g = new GeneticAlgorithm_Specialized<long double>(gas);
+      dynamic_cast<GeneticAlgorithm_Specialized<long double> *>(g)->setProblem(function_fitting);
+      break;
+    case 2:
+      g = new GeneticAlgorithm_Specialized<Label>(gas);
+      dynamic_cast<GeneticAlgorithm_Specialized<Label> *>(g)->setProblem(memory_allocation);
+      break;
   default:
     return;
   }

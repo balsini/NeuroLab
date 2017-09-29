@@ -31,7 +31,6 @@ SOURCES += \
     hopfield.cpp \
     matfun.cpp \
     gaerrorplot.cpp \
-    tsp/tsp.cpp \
     memory_allocation/memory_allocation.cpp \
     memory_allocation/memoryallocationdisplay.cpp \
     memory_allocation/WATERS/src/tinyxml/tinyxml2.cpp \
@@ -49,7 +48,11 @@ SOURCES += \
     memory_allocation/WATERS/src/strtools.cpp \
     memory_allocation/WATERS/src/Task2.cpp \
     memory_allocation/buttonlegend.cpp \
-    tsp/tspdisplay.cpp
+    tsp/tsp.cpp \
+    tsp/tspdisplay.cpp \
+    function_fitting/advanced_0/function.cpp \
+    function_fitting/functionfitting.cpp \
+    function_fitting/functionfittingdisplay.cpp \
 
 HEADERS  += \
     mainwindow.h \
@@ -59,7 +62,6 @@ HEADERS  += \
     geneticalgorithm.h \
     gaerrorplot.h \
     optimizationproblem.h \
-    tsp/tsp.h \
     memory_allocation/memory_allocation.h \
     memory_allocation/memoryallocationdisplay.h \
     memory_allocation/WATERS/src/tinyxml/tinyxml2.h \
@@ -78,6 +80,10 @@ HEADERS  += \
     memory_allocation/WATERS/src/strtools.h \
     memory_allocation/WATERS/src/Task2.h \
     memory_allocation/buttonlegend.h \
-    tsp/tspdisplay.h
+    tsp/tsp.h \
+    tsp/tspdisplay.h \
+    function_fitting/advanced_0/function.h \
+    function_fitting/functionfitting.h \
+    function_fitting/functionfittingdisplay.h
 
 FORMS    += mainwindow.ui

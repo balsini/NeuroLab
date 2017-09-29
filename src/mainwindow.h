@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "tsp/tsp.h"
+#include "function_fitting/functionfitting.h"
 #include "memory_allocation/memory_allocation.h"
 #include "geneticalgorithm.h"
 
@@ -16,6 +17,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     TSP *tsp;
+    FunctionFitting * function_fitting;
     MemoryAllocation *memory_allocation;
     GeneticAlgorithm *g;
     GA_Thread *workerThread;

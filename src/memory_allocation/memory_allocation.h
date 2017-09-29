@@ -32,7 +32,7 @@ class MemoryAllocation : public QGraphicsScene, public GAOptimizationProblem<Lab
     void setRAM(uint8_t r);
     void setCore(uint8_t c);
     void refreshView();
-    void	mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
 
   signals:
     void RAM_counted(int, int, int, int, int);

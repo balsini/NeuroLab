@@ -198,7 +198,7 @@
         <item>
          <widget class="QTabWidget" name="geneticTab">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -251,6 +251,32 @@
                </widget>
               </item>
              </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_4">
+           <attribute name="title">
+            <string>Function Fitting</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="FunctionFittingDisplay" name="FunctionFittingView">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
+              <property name="backgroundBrush">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -558,6 +584,11 @@
    <slots>
     <slot>clear()</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>FunctionFittingDisplay</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">function_fitting/functionfittingdisplay.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
