@@ -45,7 +45,7 @@ FunctionFitting::FunctionFitting(QGraphicsItem *parent) :
 
 unsigned int FunctionFitting::getSolutionSize() const
 {
-  return function.dimension();
+  return function.variables();
 }
 
 void FunctionFitting::addProblemElement(int x, int y)
@@ -80,7 +80,7 @@ void FunctionFitting::removeProblemElement(int x, int y)
 std::vector<Coordinate> FunctionFitting::getTargets()
 {
   std::vector<Coordinate> ret;
-/*
+  /*
   for (QGraphicsItem *p : targets)
     ret.push_back(std::make_pair(p->x(),
                                  p->y()));
@@ -141,6 +141,14 @@ void FunctionFitting::showSolution(const std::vector<long double> &s)
     auto y = function.evaluate(x, s);
     ga_series.append(x, y);
   }
+
+  QString data;
+  for (unsigned int i=0; i<s.size(); ++i) {
+    double n = s.at(i);
+    data.append(QString::number(n) + " ");
+  }
+
+  qDebug() << "Solution:" << data;
 }
 
 std::vector<long double> FunctionFitting::crossover(const std::vector<long double> &a,
@@ -161,11 +169,15 @@ void FunctionFitting::mutate(std::vector<long double> &c)
 {
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine g(seed);
-  std::uniform_real_distribution<long double> s(-0.2, 0.2);
-  std::uniform_real_distribution<long double> b(-10, 10);
+  double newValue;
 
-  for (unsigned int i=0; i<c.size(); ++i)
-    c[i] += c[i] * s(g) + b(g);
+  for (unsigned int i=0; i<c.size(); ++i) {
+    do {
+      std::uniform_real_distribution<long double> s(-1.1, 1.1);
+      newValue = c[i] + c[i] * s(g);
+    } while (newValue < function.getConstraints().at(i).first || newValue > function.getConstraints().at(i).second);
+    c[i] = newValue;
+  }
 }
 
 std::vector<long double> FunctionFitting::getRandomSolution() const
@@ -173,10 +185,12 @@ std::vector<long double> FunctionFitting::getRandomSolution() const
   std::vector<long double> s;
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine g(seed);
-  std::uniform_real_distribution<long double> d(-10000000000, 10000000000);
 
-  for (unsigned int i=0; i<function.dimension(); ++i)
+  for (unsigned int i=0; i<function.variables(); ++i){
+    std::uniform_real_distribution<long double> d(function.getConstraints().at(i).first,
+                                                  function.getConstraints().at(i).second);
     s.push_back(d(g));
+  }
 
   return s;
 }
