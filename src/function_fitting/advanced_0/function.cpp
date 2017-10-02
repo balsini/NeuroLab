@@ -4,8 +4,6 @@
 
 FunctionToFit::FunctionToFit()
 {
-  _variables = 3;
-
   _data[200000] = {1.220887347, 8319726.652061044};
   _data[300000] = {0.90306089, 11235108.410020946};
   _data[400000] = {0.751605932, 13488865.066594498};
@@ -26,9 +24,23 @@ FunctionToFit::FunctionToFit()
   _data[1900000] = {0.515753466, 19628058.107902274};
   _data[2000000] = {0.52580657, 19246522.537746154};
 
-  _constraints.push_back(std::make_pair(0, 2));
+#if 1
+  /*
   _constraints.push_back(std::make_pair(0, 1000000000));
-  _constraints.push_back(std::make_pair(0, 2));
+  */
+  _constraints.push_back(std::make_pair(0, 1));
+  _constraints.push_back(std::make_pair(0, 1000000000));
+  _constraints.push_back(std::make_pair(0, 1));
+
+#else
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+#endif
+
+  _variables = _constraints.size();
 }
 
 double FunctionToFit::evaluate(const double &x, const std::vector<long double> &p) const
@@ -60,7 +72,7 @@ double FunctionToFit::evaluate(const double &x, const std::vector<long double> &
   auto d = p[3];
   auto e = p[4];
 
-  return a + b / x + c * exp(- d * x + e);
+  return a + b / x + c * exp(- d * (x + e));
 #endif
 }
 

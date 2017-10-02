@@ -7,19 +7,17 @@
 #include <QBrush>
 #include <QGraphicsView>
 
+#include <cassert>
 #include <algorithm>
 #include <cmath>
 #include <random>
 
-static const int radius = 8;
-static QBrush brush;
+#include "error_function.h"
+
 
 FunctionFitting::FunctionFitting(QGraphicsItem *parent) :
   QChart(parent)
 {
-  brush.setStyle(Qt::SolidPattern);
-  brush.setColor(Qt::red);
-
   for (unsigned int i=0; i<function.dataSize(); ++i)
     reference_series.append(function.x(i), function.y(i));
 
@@ -40,85 +38,45 @@ FunctionFitting::FunctionFitting(QGraphicsItem *parent) :
 
   addSeries(&reference_series);
   addSeries(&ga_series);
+
+  ga_series.setMarkerShape(QScatterSeries::MarkerShapeRectangle);
+
+  reference_series.setMarkerSize(10);
+  ga_series.setMarkerSize(reference_series.markerSize() / 1.5);
+
+  QColor border = QColor::fromRgb(0, 0, 0);
+  reference_series.setBorderColor(border);
+  ga_series.setBorderColor(border);
+
   createDefaultAxes();
 }
+
 
 unsigned int FunctionFitting::getSolutionSize() const
 {
   return function.variables();
 }
 
-void FunctionFitting::addProblemElement(int x, int y)
+
+long double FunctionFitting::evaluateSolution(const std::vector<long double> &s) const
 {
-  /*
-  QGraphicsItem *to_add;
-
-  to_add = addEllipse(0,0,
-                      radius, radius, QPen(), brush);
-  to_add->setPos(x, y);
-
-  targets.push_back(to_add);
-  */
-}
-
-void FunctionFitting::removeProblemElement(int x, int y)
-{
-  /*
-  QGraphicsItem *to_delete;
-
-  to_delete = itemAt(x, y, QTransform());
-  if (to_delete) {
-    auto i = find(targets.begin(), targets.end(), to_delete);
-    if (i != targets.end()) {
-      targets.erase(i);
-      removeItem(to_delete);
-    }
-  }
-  */
-}
-
-std::vector<Coordinate> FunctionFitting::getTargets()
-{
-  std::vector<Coordinate> ret;
-  /*
-  for (QGraphicsItem *p : targets)
-    ret.push_back(std::make_pair(p->x(),
-                                 p->y()));
-*/
-  return ret;
-}
-
-void FunctionFitting::setPath(const std::vector<Coordinate> &s)
-{
-  /*
-  for (auto &i : steps)
-    removeItem(i);
-  steps.clear();
-
-  for (unsigned int i=0; i<s.size(); ++i) {
-    const Coordinate &c1 = s[i];
-    const Coordinate &c2 = s[(i + 1) % s.size()];
-
-    steps.push_back(addLine(c1.first + radius / 2, c1.second + radius / 2,
-                            c2.first + radius / 2, c2.second + radius / 2,
-                            QPen()));
-  }
-  */
-}
-
-double FunctionFitting::evaluateSolution(const std::vector<long double> &s) const
-{
-  double _cost = 0;
+  std::vector<std::pair<long double, long double> > errors;
 
   for (unsigned int i=0; i<function.dataSize(); ++i) {
     double y = function.y(i);
     double yt = function.evaluate(function.x(i), s);
 
-    _cost += sqrt((y - yt) * (y - yt));
+    errors.push_back(std::make_pair(y, yt));
   }
 
-  return _cost;
+  long double error = error_least_square(errors);
+
+  assert(!std::isnan(error));
+  assert(error != 0);
+
+  return error;
 }
+
 
 void FunctionFitting::showSolution(const std::vector<long double> &s)
 {
@@ -136,7 +94,7 @@ void FunctionFitting::showSolution(const std::vector<long double> &s)
   */
 
   ga_series.clear();
-  for (int i=0; i<function.dataSize(); ++i) {
+  for (unsigned int i=0; i<function.dataSize(); ++i) {
     auto x = function.x(i);
     auto y = function.evaluate(x, s);
     ga_series.append(x, y);
@@ -148,8 +106,10 @@ void FunctionFitting::showSolution(const std::vector<long double> &s)
     data.append(QString::number(n) + " ");
   }
 
-  qDebug() << "Solution:" << data;
+  qDebug() << "Error: " << QString::number(static_cast<double>(evaluateSolution(s)))
+           << "\tSolution:" << data;
 }
+
 
 std::vector<long double> FunctionFitting::crossover(const std::vector<long double> &a,
                                                     const std::vector<long double> &b)
@@ -165,20 +125,24 @@ std::vector<long double> FunctionFitting::crossover(const std::vector<long doubl
   return ret;
 }
 
+
 void FunctionFitting::mutate(std::vector<long double> &c)
 {
   static unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   static std::default_random_engine g(seed);
+  std::uniform_int_distribution<unsigned int> index(0, c.size() - 1);
   double newValue;
+  unsigned int i=index(g);
 
-  for (unsigned int i=0; i<c.size(); ++i) {
+  //for (unsigned int i=0; i<c.size(); ++i) {
     do {
       std::uniform_real_distribution<long double> s(-1.1, 1.1);
       newValue = c[i] + c[i] * s(g);
     } while (newValue < function.getConstraints().at(i).first || newValue > function.getConstraints().at(i).second);
     c[i] = newValue;
-  }
+  //}
 }
+
 
 std::vector<long double> FunctionFitting::getRandomSolution() const
 {
@@ -193,22 +157,4 @@ std::vector<long double> FunctionFitting::getRandomSolution() const
   }
 
   return s;
-}
-
-
-void FunctionFitting::clear()
-{
-  /*
-  targets.clear();
-  steps.clear();
-
-  QGraphicsScene::clear();
-  */
-}
-
-void FunctionFitting::refreshView()
-{
-  qDebug() << "Resized";
-  //adjustSize();
-  //update();
 }

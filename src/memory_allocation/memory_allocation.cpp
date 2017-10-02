@@ -36,7 +36,7 @@ unsigned int MemoryAllocation::getSolutionSize() const
   return get_genes_size_waters_GA();
 }
 
-double MemoryAllocation::evaluateSolution(const std::vector<Label> &s) const
+long double MemoryAllocation::evaluateSolution(const std::vector<Label> &s) const
 {
   return computeResponseTime(s);
 }

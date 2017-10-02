@@ -63,7 +63,7 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 {
     typedef std::vector<Gene> Chromosome;
 
-    std::vector<std::pair<Chromosome, double>> population;
+    std::vector<std::pair<Chromosome, long double>> population;
     GAOptimizationProblem<Gene> *_problem;
 
   public:

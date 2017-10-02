@@ -83,6 +83,7 @@ HEADERS  += \
     tsp/tsp.h \
     tsp/tspdisplay.h \
     function_fitting/advanced_0/function.h \
+    function_fitting/error_function.h \
     function_fitting/functionfitting.h \
     function_fitting/functionfittingdisplay.h
 

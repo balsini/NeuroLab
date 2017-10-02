@@ -16,10 +16,6 @@ class FunctionFittingDisplay : public QChartView
   public:
     FunctionFittingDisplay(QWidget * parent = 0);
     void setScene(QChart * scene);
-    void resizeEvent(QResizeEvent *event);
-
-  public slots:
-    void clear();
 };
 
 #endif // FUNCTIONFITTINGDISPLAY_H

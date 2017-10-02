@@ -92,7 +92,7 @@ void TSP::setPath(const std::vector<Coordinate> &s)
   }
 }
 
-double TSP::evaluateSolution(const std::vector<int> &s) const
+long double TSP::evaluateSolution(const std::vector<int> &s) const
 {
   double _cost = 0;
 

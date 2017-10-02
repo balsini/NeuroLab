@@ -11,7 +11,7 @@ class OptimizationProblem
   public:
     virtual unsigned int getSolutionSize() const = 0;
     virtual std::vector<T> getRandomSolution() const = 0;
-    virtual double evaluateSolution(const std::vector<T> &) const = 0;
+    virtual long double evaluateSolution(const std::vector<T> &) const = 0;
     virtual void showSolution(const std::vector<T> &) = 0;
 };
 
