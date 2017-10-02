@@ -11,7 +11,7 @@ class FunctionToFit {
 
   public:
     FunctionToFit();
-    double evaluate(const double &x, const std::vector<long double> &p) const;
+    long double evaluate(const long double &x, const std::vector<long double> &p) const;
     long double x(unsigned int index) const;
     long double y(unsigned int index) const;
     unsigned int dataSize() const;
