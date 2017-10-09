@@ -76,6 +76,8 @@ FunctionToFit::FunctionToFit()
   */
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(161020, 161021));
 #else
@@ -89,62 +91,10 @@ FunctionToFit::FunctionToFit()
   _variables = _constraints.size();
 }
 
-long double IPC = 1.6;
-
-/*
- * CPU time
- *
- * The time spent by the program in running the CPU instructions (ALU and FPU)
- *
- * @param I_C Total number of CPU instructions
- * @param f_C CPU frequency
- */
-static inline
-long double T_CPU(long unsigned int I_C, long unsigned int f_C)
-{
-  return static_cast<long double>(I_C) / static_cast<long double>(IPC) / f_C;
-}
-
-unsigned long int RAM_freq = 933000;
-double CIPC = 1.0 / 21.0; // Cache instructions per cycle
-unsigned long int L2_miss_penality_cycles = 30;
-unsigned long int cache_size = 2000000;
-
-/*
- * Memory time
- *
- * The time spent by the program in running the memory instructions (memory and
- * caches)
- *
- * @param I_M Total number of memory instructions
- * @param f_C CPU frequency
- */
-static inline
-long double T_memory(long unsigned int I_M, long unsigned int f_C, long double CP)
-{
-  //long double T_CACHE_OP = 1 / CIPC / f_C;
-  long double T_MEM_OP = 1 / CIPC / f_C + 110.0 / 1000.0 / 1000.0 / 1000.0;
-
-  return I_M * T_MEM_OP;
-
-  //double CACHE_OPS = p[0] * v;
-  //return I_M * (CACHE_OPS * T_CACHE_OP + (1.0 - CACHE_OPS) * T_MEM_OP);
-}
-
 long double FunctionToFit::evaluate(const long double &x,
                                     const std::vector<long double> &p) const
 {
-#if 0
-  long unsigned int TOTAL_INSTR = p[0];
-  long unsigned int CPU_instr = TOTAL_INSTR * p[1];
-  long unsigned int MEM_instr = TOTAL_INSTR - CPU_instr;
-
-  //double v = _data.at(CPU_freq)[1];
-
-  return T_CPU(CPU_instr, CPU_freq) + T_memory(MEM_instr, CPU_freq, p[2]);
-#else
-  return p[0] + p[1] / x + 1.85419 * exp(- x / 161021);
-#endif
+  return p[0] + p[1] / x + p[2] * exp(- x / p[3]);
 }
 
 long double FunctionToFit::x(unsigned int index) const
