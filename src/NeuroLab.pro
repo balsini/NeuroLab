@@ -87,3 +87,7 @@ HEADERS  += \
     function_fitting/functionfittingdisplay.h
 
 FORMS    += mainwindow.ui
+
+CONFIG(release, debug|release) {
+    CONFIG += optimize_full
+}
