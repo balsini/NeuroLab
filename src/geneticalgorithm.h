@@ -111,18 +111,30 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       std::random_device rd;
       std::mt19937 generator(rd());
       std::uniform_int_distribution<int> d(_gas.recombine_from, _gas.recombine_to);
+      Chromosome s;
+      long double v;
 
       while (population.size() < _gas.population_size) {
-        population.push_back(std::make_pair(_problem->crossover(population[d(generator)].first,
-                                            population[d(generator)].first),
-            0.0));
+        do {
+          s = _problem->crossover(population[d(generator)].first, population[d(generator)].first);
+          v = _problem->evaluateSolution(s);
+        } while (std::isinf(v));
+
+        population.push_back(std::make_pair(s, v));
       }
     }
 
     void mutation()
     {
-      for (unsigned int i=_gas.mutate_from; i<_gas.mutate_to; ++i)
-        _problem->mutate(population[i].first);
+      Chromosome s;
+
+      for (unsigned int i=_gas.mutate_from; i<_gas.mutate_to; ++i) {
+        do {
+          s = population[i].first;
+          _problem->mutate(s);
+        } while (std::isinf(_problem->evaluateSolution(s)));
+        population[i].first = s;
+      }
     }
 
     std::pair<double, double> run_init()
@@ -165,8 +177,12 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
 
     void computeAnySolution()
     {
-      for (auto &p : population)
-        p.first = _problem->getRandomSolution();
+      for (auto &p : population) {
+        do {
+          p.first = _problem->getRandomSolution();
+          p.second = _problem->evaluateSolution(p.first);
+        } while (std::isinf(p.second));
+      }
     }
 
     void showSolution()

@@ -50,7 +50,7 @@ SOURCES += \
     memory_allocation/buttonlegend.cpp \
     tsp/tsp.cpp \
     tsp/tspdisplay.cpp \
-    function_fitting/advanced_1/function.cpp \
+    function_fitting/advanced_0/function.cpp \
     function_fitting/functionfitting.cpp \
     function_fitting/functionfittingdisplay.cpp \
 
