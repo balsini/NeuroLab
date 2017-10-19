@@ -7,6 +7,8 @@
 #include "memory_allocation/WATERS/src/milpData.h"
 
 #include <functional>
+#include <cmath>
+
 #include <QString>
 
 #include <QDebug>
@@ -110,7 +112,10 @@ void MainWindow::GA_new_best(GeneticAlgorithm *g, std::pair<double, double> v)
 {
   g->showSolution();
   ui->GA_cost->setText(QString::number(v.first, 'g', 12));
-  ui->GA_errorPlot->addEpochValues(v.first, v.second);
+  if (std::isinf(v.second))
+    ui->GA_errorPlot->addEpochValues(v.first, std::numeric_limits<qreal>::max());
+  else
+    ui->GA_errorPlot->addEpochValues(v.first, v.second);
   ui->GA_errorPlot->plot();
 }
 

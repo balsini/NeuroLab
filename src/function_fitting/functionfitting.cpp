@@ -69,12 +69,7 @@ long double FunctionFitting::evaluateSolution(const std::vector<long double> &s)
     errors.push_back(std::make_pair(y, yt));
   }
 
-  long double error = error_least_square(errors);
-
-  assert(!std::isnan(error));
-  assert(error != 0);
-
-  return error;
+  return error_least_square(errors);
 }
 
 
