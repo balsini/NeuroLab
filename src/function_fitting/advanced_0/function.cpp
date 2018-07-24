@@ -161,8 +161,9 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(10000, 100000000));
 #elif defined(POW_IDLE_BIG)
-  _constraints.push_back(std::make_pair(-1000, 1000));
-  _constraints.push_back(std::make_pair(-1000, 1000));
+  _constraints.push_back(std::make_pair(0, 1000));
+  _constraints.push_back(std::make_pair(0, 1));
+  _constraints.push_back(std::make_pair(0, 10));
 #endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(161020, 161021));
@@ -189,8 +190,11 @@ long double FunctionToFit::evaluate(const long double &x,
 #elif defined(POW_IDLE_BIG)
   auto f = x;
   auto v = _data2.at(f).front();
+  auto K_0 = p[1];
+  auto gamma = p[0];
+  auto displacement = p[2];
 
-  res = p[0] + p[1] * x + x * x;
+  res = displacement + (1 + gamma * v) * K_0 * f * v * v;
 #endif
 
   return res;
