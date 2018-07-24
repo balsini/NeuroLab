@@ -4,7 +4,12 @@
 
 FunctionToFit::FunctionToFit()
 {
-#if 0
+//#define EXEC_BZIP2
+//#define EXEC_CACHEKILLER
+//#define EXEC_DES3_ENCRYPT
+#define POW_IDLE_BIG
+//#define POW_IDLE_LITTLE
+#ifdef EXEC_BZIP2
   // bzip2_perf.sh
   _data[200000] = {41.000305156, 1915360.036985184};
   _data[300000] = {27.294285376, 2853658.7760780067};
@@ -25,7 +30,7 @@ FunctionToFit::FunctionToFit()
   _data[1800000] = {5.28200159, 14519628.912114734};
   _data[1900000] = {5.016087584, 15341446.637706874};
   _data[2000000] = {4.864610088, 15812357.539147545};
-#elif 1
+#elif defined(EXEC_CACHEKILLER)
   // cachekiller_perf.sh
   _data[200000] = {1.220887347, 8319726.652061044};
   _data[300000] = {0.90306089, 11235108.410020946};
@@ -46,7 +51,7 @@ FunctionToFit::FunctionToFit()
   _data[1800000] = {0.521394118, 19408763.2572794};
   _data[1900000] = {0.515753466, 19628058.107902274};
   _data[2000000] = {0.52580657, 19246522.537746154};
-#else
+#elif defined(DES3_ENCRYPT)
   // des3_encrypt_perf.sh
   _data[200000] = {7.960844594, 170886.8932104668};
   _data[300000] = {5.203507918, 226898.66501707898};
@@ -67,6 +72,61 @@ FunctionToFit::FunctionToFit()
   _data[1800000] = {0.836543487, 1113669.539572902};
   _data[1900000] = {0.790822247, 1246644.241155244};
   _data[2000000] = {0.754319393, 1445045.706255626};
+#elif defined(EXEC_DES3_ENCRYPT)
+  // des3_encrypt_perf.sh
+  _data[200000] = {7.960844594, 170886.8932104668};
+  _data[300000] = {5.203507918, 226898.66501707898};
+  _data[400000] = {3.852668671, 316186.0268881658};
+  _data[500000] = {3.056318095, 346492.7298413289};
+  _data[600000] = {2.531410355, 393007.3992290357};
+  _data[700000] = {2.150385425, 505381.0295426458};
+  _data[800000] = {1.893171146, 582425.4200840223};
+  _data[900000] = {1.67191051, 633549.4595341709};
+  _data[1000000] = {1.496425646, 726087.5292429999};
+  _data[1100000] = {1.370600728, 861850.5563788085};
+  _data[1200000] = {1.247152069, 765503.280418324};
+  _data[1300000] = {1.151533717, 854384.0145325072};
+  _data[1400000] = {1.071037274, 912194.2099654694};
+  _data[1500000] = {0.998932489, 939679.1177947161};
+  _data[1600000] = {0.938699582, 1016938.7717912076};
+  _data[1700000] = {0.885167121, 1116428.7246498393};
+  _data[1800000] = {0.836543487, 1113669.539572902};
+  _data[1900000] = {0.790822247, 1246644.241155244};
+  _data[2000000] = {0.754319393, 1445045.706255626};
+#elif defined(POW_IDLE_BIG)
+    _data[167963] = {0.11753618415};
+    _data[252059] = {0.124703106195};
+    _data[335867] = {0.125327878446};
+    _data[419887] = {0.134832690447};
+    _data[503920] = {0.150089416338};
+    _data[587851] = {0.169601106499};
+    _data[689752] = {0.19585144422};
+    _data[817002] = {0.231446941998};
+    _data[956011] = {0.273615714344};
+    _data[1.10496e+06] = {0.318171347641};
+    _data[1.26659e+06] = {0.365590132943};
+    _data[1.43948e+06] = {0.42342218299};
+    _data[1.58589e+06] = {0.465458459238};
+    _data[1.766e+06] = {0.517404849145};
+    _data[1.99102e+06] = {0.589372067423};
+    _data[2.26066e+06] = {0.672044867398};
+    _data[2.55348e+06] = {0.78247376533};
+    _data[2.93021e+06] = {0.921020426427};
+    _data[3.4734e+06] = {1.14932193089};
+#elif defined(POW_IDLE_LITTLE)
+    _data[ 200000 ] = {0.014286022527 };
+    _data[ 300000 ] = {0.0176564630017 };
+    _data[ 400000 ] = {0.0206775010414 };
+    _data[ 500000 ] = {0.0233931600552 };
+    _data[ 600000 ] = {0.0289896589283 };
+    _data[ 700000 ] = {0.0353970341141 };
+    _data[ 800000 ] = {0.0419518965156 };
+    _data[ 900000 ] = {0.0649049267157 };
+    _data[ 1000000 ] = {0.07700485942 };
+    _data[ 1100000 ] = {0.0911104786687 };
+    _data[ 1200000 ] = {0.107736782445 };
+    _data[ 1300000 ] = {0.132103339988 };
+    _data[ 1400000 ] = {0.162989048706 };
 #endif
 #if 1
   /*
@@ -74,10 +134,15 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(0, 1000000000));
   _constraints.push_back(std::make_pair(0, 1));
   */
+#ifdef XXX
+  _constraints.push_back(std::make_pair(-10, 10));
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
-  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
-  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
-  _constraints.push_back(std::make_pair(-1000000000, 1000000000));
+  //_constraints.push_back(std::make_pair(10000, 100000000));
+#elif defined(POW_IDLE_BIG)
+  _constraints.push_back(std::make_pair(-1000, 1000));
+  _constraints.push_back(std::make_pair(-1000, 1000));
+  _constraints.push_back(std::make_pair(-1000, 1000));
+#endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(161020, 161021));
 #else
@@ -94,7 +159,17 @@ FunctionToFit::FunctionToFit()
 long double FunctionToFit::evaluate(const long double &x,
                                     const std::vector<long double> &p) const
 {
-  return p[0] + p[1] / x + p[2] * exp(- x / p[3]);
+  // cachekiller_perf.sh: 0.486207 52252.2 1.69011 156644
+  // bzip2: 0.995107 7.6922e+6 6.69154 135190
+  // des3_encrypt: 1.36817e-17 1.50382e+6 2.12979 126684
+  long double res;
+#ifdef XXX
+  res = p[0] + p[1] / x + 1.69 * exp(- x / 156644)
+#elif defined(POW_IDLE_BIG)
+  res = p[0] + p[1] * x + p[2] * x * x;
+#endif
+
+  return res;
 }
 
 long double FunctionToFit::x(unsigned int index) const

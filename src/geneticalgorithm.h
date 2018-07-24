@@ -145,7 +145,7 @@ class GeneticAlgorithm_Specialized : public GeneticAlgorithm
       population.resize(_gas.population_size);
       _genes = _problem->getSolutionSize();
 
-      if (_genes < 2)
+      if (_genes < 1)
         throw(std::string("Problem size too small"));
 
       for (auto &p : population) {

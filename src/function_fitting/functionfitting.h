@@ -14,6 +14,7 @@
 
 class FunctionToFit {
     std::map<double, std::vector<double> > _data;
+    std::map<double, std::vector<double> > _data2;
     std::vector<std::pair<long double, long double> > _constraints;
     unsigned int _variables;
 
