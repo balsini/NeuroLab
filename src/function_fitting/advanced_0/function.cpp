@@ -9,7 +9,7 @@ FunctionToFit::FunctionToFit()
 //#define EXEC_DES3_ENCRYPT
 
 
-//#define POW_IDLE_LITTLE
+#define POW_IDLE_LITTLE
 //#define POW_IDLE_BIG
 
 //#define POW_BIG_CACHE
@@ -22,7 +22,7 @@ FunctionToFit::FunctionToFit()
 //#define POW_LITTLE_GZIP2
 //#define POW_LITTLE_ENCRY
 //#define POW_LITTLE_DECRY
-#define POW_LITTLE_HASH
+//#define POW_LITTLE_HASH
 
 #define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
@@ -405,10 +405,10 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(10000, 100000000));
 #elif (POW_BIG_ANY || POW_LITTLE_ANY)
-  _constraints.push_back(std::make_pair(0, 3));
-  _constraints.push_back(std::make_pair(0, 100));
-  _constraints.push_back(std::make_pair(0, 100));
-  _constraints.push_back(std::make_pair(0, 1));
+  _constraints.push_back(std::make_pair(0, 0.5));
+  _constraints.push_back(std::make_pair(0, 150));
+  _constraints.push_back(std::make_pair(50, 75));
+  _constraints.push_back(std::make_pair(0, 1e-6));
 #endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(161020, 161021));
@@ -435,16 +435,12 @@ long double FunctionToFit::evaluate(const long double &x,
   res = p[0] + p[1] / x + 1.69 * exp(- x / 156644)
 #elif (defined(POW_IDLE_BIG) || defined(POW_IDLE_LITTLE))
   // Solution IDLE_BIG
-  // disp = 0.0637727
-  // eta = 0.0223477
-  // gamma = 28.099
-  // K0 = 7.28082e-9
+  // <disp, eta, gamma, K0>
+  // 0.0615501, 0.181869, 70.899, 3.25146e-9
 
   // Solution IDLE_LITTLE
-  // disp = 0.000366826
-  // eta = 3.03306e-36
-  // gamma = 69.3377
-  // K0 = 7.63806e-10
+  // <disp, eta, gamma, K0>
+  // 0.000383117 0.00884979 64.8351 8.15464e-10
 
   auto f = x;
   auto v = _data2.at(f).front();
