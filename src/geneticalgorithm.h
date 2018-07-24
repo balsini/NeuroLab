@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include <functional>
 #include <chrono>
+#include <random>
 
 #include <QObject>
 #include <QWidget>
