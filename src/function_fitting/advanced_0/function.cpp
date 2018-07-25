@@ -21,8 +21,8 @@ FunctionToFit::FunctionToFit()
 //#define POW_LITTLE_CACHE
 //#define POW_LITTLE_GZIP2
 //#define POW_LITTLE_ENCRY
-//#define POW_LITTLE_DECRY
-#define POW_LITTLE_HASH
+#define POW_LITTLE_DECRY
+//#define POW_LITTLE_HASH
 
 #define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
@@ -411,8 +411,8 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(1e-9, 9.9e-9));
 #elif (POW_BIG_WL || POW_LITTLE_WL)
     _constraints.push_back(std::make_pair(0, 0.8));
-    _constraints.push_back(std::make_pair(0, 200));
-    _constraints.push_back(std::make_pair(0, 200));
+    _constraints.push_back(std::make_pair(0, 91));
+    _constraints.push_back(std::make_pair(0, 50));
     _constraints.push_back(std::make_pair(1e-10, 1e-9));
 #endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
@@ -501,10 +501,10 @@ long double FunctionToFit::evaluate(const long double &x,
   // 0.0130081 57.5485 1.78526 9.53085e-10
   //
   // Solution Encryption
-  // 1.55226e-5 91.5498 33.1454 7.57548e-10
+  // 0.000292578 90.6096 4.89316 9.98852e-10
   //
   // Solution Decryption
-  // 3.00809e-7 122.153 15.9118 6.95939e-10
+  // 0.00084133 90.9539 4.97431 9.95111e-10
 
   // Solution Hash
   // 0.00681312 142.931 4.71582 5.18158e-10
