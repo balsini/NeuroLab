@@ -21,8 +21,8 @@ FunctionToFit::FunctionToFit()
 //#define POW_LITTLE_CACHE
 //#define POW_LITTLE_GZIP2
 //#define POW_LITTLE_ENCRY
-#define POW_LITTLE_DECRY
-//#define POW_LITTLE_HASH
+//#define POW_LITTLE_DECRY
+#define POW_LITTLE_HASH
 
 #define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
@@ -72,7 +72,7 @@ FunctionToFit::FunctionToFit()
     _data2[1000000] = {1.10625};
     _data2[1100000] = {1.14375};
     _data2[1200000] = {1.18125};
-    _data2[1300000] = {1.23098};
+    _data2[1300000] = {1.23098};// 0.00453355 217.205 66.896 4.27884e-10 // Full
     _data2[1400000] = {1.28002};
 #endif
 
@@ -410,9 +410,9 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(0, 150));
   _constraints.push_back(std::make_pair(1e-9, 9.9e-9));
 #elif (POW_BIG_WL || POW_LITTLE_WL)
-    _constraints.push_back(std::make_pair(0, 0.8));
-    _constraints.push_back(std::make_pair(0, 91));
-    _constraints.push_back(std::make_pair(0, 50));
+    _constraints.push_back(std::make_pair(0, 5));
+    _constraints.push_back(std::make_pair(0, 500));
+    _constraints.push_back(std::make_pair(0, 500));
     _constraints.push_back(std::make_pair(1e-10, 1e-9));
 #endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
@@ -459,24 +459,36 @@ long double FunctionToFit::evaluate(const long double &x,
 
 #elif (POW_BIG_WL)
   std::vector<double> idle_sol_big = {0.0637727, 0.0223477, 28.099, 7.28082e-9};
+  //
+  // The "Delta model" models the power consumption of the CPU as a sum of Pidle + DeltaP.
+  // The parameters of the DeltaP are estimated with the genetic algorithm.
+  // The "Full" model, instead, estimates the parameters of the power consumption formula, on a single
+  // expression, without considering the Pidle.
+  //
   // Solution GZIP2
   //<dist, eta, gamma, Kw>
-  // 0.00829219 87.1105 53.1254 2.92188e-9
+  // 0.00829219 87.1105 53.1254 2.92188e-9 // Delta Model
+  // 0.0721914 101.4 142.631 2.547e-9 // Full
   //
   // Solution Cachekiller
   // <dist, eta, gamma, Kw>
-  // 0.0561092 42.5547 58.1872 2.48896e-9
+  // 0.0561092 42.5547 58.1872 2.48896e-9 // Delta Model
+  // 0.132446 26.0672 98.1562 3.66153e-9 // Full
   //
   // Solution Encryption
   // <dist, eta, gamma, Kw>
-  // 0.000358041 66.7515 48.4517 4.0149e-9
+  // 0.000358041 66.7515 48.4517 4.0149e-9 // Delta Model
+  // 0.0654654 258.958 385.494 1.04853e-9 // Full
   //
   // Solution Decryption
   // <dist, eta, gamma, Kw>
-  // 0.000532978 38.0653 12.3592 9.34218e-9
+  // 0.000532978 38.0653 12.3592 9.34218e-9 // Delta Model
+  // 0.0539495 98.6102 73.9266 4.03708e-9 // Full
 
   // Solution Hash
-  // 0.0348713 35.4281 129.969 2.55853e-9
+  // <dist, eta, gamma, Kw>
+  // 0.0348713 35.4281 129.969 2.55853e-9 // Delta Model
+  // 0.0985725 62.2083 282.31 1.85528e-9 // Full
 
   double Pidle;
   auto f = x;
@@ -487,27 +499,32 @@ long double FunctionToFit::evaluate(const long double &x,
   auto gamma = p[2];
   auto K_w = p[3];
 
-   Pidle = idle_sol_big[0] + (1 + idle_sol_big[1] + idle_sol_big[2] * v) * idle_sol_big[3] * f * v * v;
-  res = Pidle + displacement + (1 + eta + gamma * v) * K_w * f * v * v;
+   //Pidle = idle_sol_big[0] + (1 + idle_sol_big[1] + idle_sol_big[2] * v) * idle_sol_big[3] * f * v * v;
+  res = displacement + (1 + eta + gamma * v) * K_w * f * v * v;
 
 #elif (POW_LITTLE_WL)
   std::vector<double> idle_sol_little = {0.000383117, 0.00884979, 64.8351, 8.15464e-10};
 
 
   // Solution GZIP2
-  // 0.00532092 99.0716 1.4549 7.65224e-10
+  // 0.00532092 99.0716 1.4549 7.65224e-10 // Delta Model
+  // 8.15795e-6 296.934 114.496 3.35267e-10 // Full
   //
   // Solution Cachekiller
-  // 0.0130081 57.5485 1.78526 9.53085e-10
+  // 0.0130081 57.5485 1.78526 9.53085e-10 // Delta Model
+  // 0.00453355 217.205 66.896 4.27884e-10 // Full
   //
   // Solution Encryption
-  // 0.000292578 90.6096 4.89316 9.98852e-10
+  // 0.000292578 90.6096 4.89316 9.98852e-10 // Delta Model
+  // 3.10408e-6 82.1798 92.1112 8.51862e-10 // Full
   //
   // Solution Decryption
-  // 0.00084133 90.9539 4.97431 9.95111e-10
+  // 0.00084133 90.9539 4.97431 9.95111e-10 // Delta Model
+  // 0.00115974 169.45 143.07 4.76291e-10 // Full
 
   // Solution Hash
-  // 0.00681312 142.931 4.71582 5.18158e-10
+  // 0.00681312 142.931 4.71582 5.18158e-10 // Delta Model
+  // 5.26822e-6 236.14 78.4937 4.4112e-10 // Full
 
   double Pidle;
   auto f = x;
@@ -518,8 +535,9 @@ long double FunctionToFit::evaluate(const long double &x,
   auto gamma = p[2];
   auto K_w = p[3];
 
-   Pidle = idle_sol_little[0] + (1 + idle_sol_little[1] + idle_sol_little[2] * v) * idle_sol_little[3] * f * v * v;
-  res = Pidle + displacement + (1 + eta + gamma * v) * K_w * f * v * v;
+  Pidle = 0.0;
+   //Pidle = idle_sol_little[0] + (1 + idle_sol_little[1] + idle_sol_little[2] * v) * idle_sol_little[3] * f * v * v;
+  res = displacement + (1 + eta + gamma * v) * K_w * f * v * v;
 
 #endif
 
