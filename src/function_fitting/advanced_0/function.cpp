@@ -9,7 +9,7 @@ FunctionToFit::FunctionToFit()
 //#define EXEC_DES3_ENCRYPT
 
 
-#define POW_IDLE_LITTLE
+//#define POW_IDLE_LITTLE
 //#define POW_IDLE_BIG
 
 //#define POW_BIG_CACHE
@@ -22,7 +22,7 @@ FunctionToFit::FunctionToFit()
 //#define POW_LITTLE_GZIP2
 //#define POW_LITTLE_ENCRY
 //#define POW_LITTLE_DECRY
-//#define POW_LITTLE_HASH
+#define POW_LITTLE_HASH
 
 #define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
@@ -404,11 +404,16 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(-10, 10));
   _constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(10000, 100000000));
-#elif (POW_BIG_ANY || POW_LITTLE_ANY)
-  _constraints.push_back(std::make_pair(0, 0.5));
+#elif (POW_IDLE_BIG || POW_IDLE_LITTLE)
+  _constraints.push_back(std::make_pair(0, 0.8));
+  _constraints.push_back(std::make_pair(0, 100));
   _constraints.push_back(std::make_pair(0, 150));
-  _constraints.push_back(std::make_pair(50, 75));
-  _constraints.push_back(std::make_pair(0, 1e-6));
+  _constraints.push_back(std::make_pair(1e-9, 9.9e-9));
+#elif (POW_BIG_WL || POW_LITTLE_WL)
+    _constraints.push_back(std::make_pair(0, 0.8));
+    _constraints.push_back(std::make_pair(0, 200));
+    _constraints.push_back(std::make_pair(0, 200));
+    _constraints.push_back(std::make_pair(1e-10, 1e-9));
 #endif
   //_constraints.push_back(std::make_pair(-1000000000, 1000000000));
   //_constraints.push_back(std::make_pair(161020, 161021));
@@ -455,32 +460,23 @@ long double FunctionToFit::evaluate(const long double &x,
 #elif (POW_BIG_WL)
   std::vector<double> idle_sol_big = {0.0637727, 0.0223477, 28.099, 7.28082e-9};
   // Solution GZIP2
-  // disp = 0.0053452
-  // eta = 0.374862
-  // gamma = 0.764416
-  // Kw = 1.94209e-7
-  // vector<double> prev_sol = {}
+  //<dist, eta, gamma, Kw>
+  // 0.00829219 87.1105 53.1254 2.92188e-9
   //
   // Solution Cachekiller
-  // disp = 0.0498316
-  // eta = 1.57407
-  // gamma = 3.02681
-  // Kw = 4.58559e-8
+  // <dist, eta, gamma, Kw>
+  // 0.0561092 42.5547 58.1872 2.48896e-9
   //
   // Solution Encryption
-  // disp = 0.00413434
-  // eta = 0.187845
-  // gamma = 0.942212
-  // Kw = 2.17234e-7
+  // <dist, eta, gamma, Kw>
+  // 0.000358041 66.7515 48.4517 4.0149e-9
   //
   // Solution Decryption
-  // disp = 0.00251366
-  // eta = 1.48845
-  // gamma = 0.920207
-  // Kw = 1.40328e-7
+  // <dist, eta, gamma, Kw>
+  // 0.000532978 38.0653 12.3592 9.34218e-9
 
   // Solution Hash
-  // 0.0323601 0.128258 3.51414 9.22674e-8
+  // 0.0348713 35.4281 129.969 2.55853e-9
 
   double Pidle;
   auto f = x;
@@ -495,27 +491,23 @@ long double FunctionToFit::evaluate(const long double &x,
   res = Pidle + displacement + (1 + eta + gamma * v) * K_w * f * v * v;
 
 #elif (POW_LITTLE_WL)
-  // disp = 0.000366826
-  // eta = 3.03306e-36
-  // gamma = 69.3377
-  // K0 = 7.63806e-10
-  std::vector<double> idle_sol_little = {0.000366826, 3.03306e-36, 69.3377, 7.63806e-10};
+  std::vector<double> idle_sol_little = {0.000383117, 0.00884979, 64.8351, 8.15464e-10};
 
 
   // Solution GZIP2
-  // 0.00475544 1.16413 0.00151246 3.61773e-8
+  // 0.00532092 99.0716 1.4549 7.65224e-10
   //
   // Solution Cachekiller
-  // 0.0129969 7.04034 0.267831 6.92148e-9
+  // 0.0130081 57.5485 1.78526 9.53085e-10
   //
   // Solution Encryption
-  // 1.4908e-5 0.105586 0.402122 6.31463e-8
+  // 1.55226e-5 91.5498 33.1454 7.57548e-10
   //
   // Solution Decryption
-  // 3.53466e-6 0.000710183 0.138283 8.4923e-8
+  // 3.00809e-7 122.153 15.9118 6.95939e-10
 
   // Solution Hash
-  // 0.0059368 0.00720376 0.000505415 7.74515e-8
+  // 0.00681312 142.931 4.71582 5.18158e-10
 
   double Pidle;
   auto f = x;
