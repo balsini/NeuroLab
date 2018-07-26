@@ -98,7 +98,7 @@ void FunctionFitting::showSolution(const std::vector<long double> &s)
   QString data;
   for (unsigned int i=0; i<s.size(); ++i) {
     double n = s.at(i);
-    data.append(QString::number(n) + " ");
+    data.append(QString::number(n) + ", ");
   }
 
   qDebug() << "Error: " << QString::number(static_cast<double>(evaluateSolution(s)))
