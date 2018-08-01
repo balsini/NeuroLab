@@ -4,17 +4,17 @@
 
 FunctionToFit::FunctionToFit()
 {
+    //#define EXEC_BIG_BZIP2
+    //#define EXEC_BIG_CACHE
+    //#define EXEC_BIG_ENCRY
+    //#define EXEC_BIG_DECRY
+    //#define EXEC_BIG_HASH
+
     //#define EXEC_LITTLE_BZIP2
     //#define EXEC_LITTLE_CACHE
     //#define EXEC_LITTLE_ENCRY
     //#define EXEC_LITTLE_DECRY
     //#define EXEC_LITTLE_HASH
-
-    //#define EXEC_BIG_BZIP2
-    //#define EXEC_BIG_CACHE
-    //#define EXEC_BIG_ENCRY
-    //#define EXEC_BIG_DECRY
-    #define EXEC_BIG_HASH
 
 #define EXEC_WL (defined(EXEC_BIG_BZIP2)|| defined(EXEC_BIG_CACHE) || defined(EXEC_BIG_ENCRY) || defined(EXEC_BIG_DECRY) || defined(EXEC_BIG_HASH) || \
     defined(EXEC_LITTLE_BZIP2)|| defined(EXEC_LITTLE_CACHE) || defined(EXEC_LITTLE_ENCRY) || defined(EXEC_LITTLE_DECRY) || defined(EXEC_LITTLE_HASH))
@@ -32,7 +32,7 @@ FunctionToFit::FunctionToFit()
 //#define POW_LITTLE_GZIP2
 //#define POW_LITTLE_ENCRY
 //#define POW_LITTLE_DECRY
-//#define POW_LITTLE_HASH
+#define POW_LITTLE_HASH
 
 #define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
@@ -100,6 +100,7 @@ FunctionToFit::FunctionToFit()
     _data[1200000] = {14.982961551};
     _data[1300000] = {14.164057953};
     _data[1400000] = {13.604471649};
+    double smallest_exec_time_big = 4.69799888;
 #elif defined(EXEC_LITTLE_CACHE)
     _data[200000] = {1.863606318};
     _data[300000] = {1.404879019};
@@ -114,6 +115,8 @@ FunctionToFit::FunctionToFit()
     _data[1200000] = {0.766647789};
     _data[1300000] = {0.75250967};
     _data[1400000] = {0.765481734};
+
+    double smallest_exec_time_big = 0.518917331;
 #elif defined(EXEC_LITTLE_ENCRY)
     _data[200000] = {13.296790536};
     _data[300000] = {8.619350508};
@@ -128,6 +131,8 @@ FunctionToFit::FunctionToFit()
     _data[1200000] = {2.048791525};
     _data[1300000] = {1.889116754};
     _data[1400000] = {1.755265411};
+
+    double smallest_exec_time_big = 0.746811798;
 #elif defined(EXEC_LITTLE_DECRY)
     _data[200000] = {13.401765465};
     _data[300000] = {8.691138561};
@@ -142,6 +147,8 @@ FunctionToFit::FunctionToFit()
     _data[1200000] = {2.06406423};
     _data[1300000] = {1.903549167};
     _data[1400000] = {1.768196675};
+
+    double smallest_exec_time_big = 0.754088207;
 #elif defined(EXEC_LITTLE_HASH)
     _data[200000] = {11.685911418};
     _data[300000] = {7.590168925};
@@ -156,6 +163,8 @@ FunctionToFit::FunctionToFit()
     _data[1200000] = {1.84722206};
     _data[1300000] = {1.706465776};
     _data[1400000] = {1.590262688};
+
+    double smallest_exec_time_big = 0.656942014;
 #elif defined(EXEC_BIG_BZIP2)
     _data[200000] = {40.626773577};
     _data[300000] = {26.980206049};
@@ -176,6 +185,8 @@ FunctionToFit::FunctionToFit()
     _data[1800000] = {5.132259706};
     _data[1900000] = {4.908850392};
     _data[2000000] = {4.69799888};
+
+    double smallest_exec_time_big = 4.69799888;
 #elif defined(EXEC_BIG_CACHE)
     _data[200000] = {1.179010454};
     _data[300000] = {0.867880083};
@@ -196,6 +207,8 @@ FunctionToFit::FunctionToFit()
     _data[1800000] = {0.521984443};
     _data[1900000] = {0.519880016};
     _data[2000000] = {0.518917331};
+
+    double smallest_exec_time_big = 0.518917331;
 #elif defined(EXEC_BIG_ENCRY)
     _data[200000] = {7.749133509};
     _data[300000] = {5.073460165};
@@ -216,6 +229,8 @@ FunctionToFit::FunctionToFit()
     _data[1800000] = {0.827715341};
     _data[1900000] = {0.784879379};
     _data[2000000] = {0.746811798};
+
+    double smallest_exec_time_big = 0.746811798;
 #elif defined(EXEC_BIG_DECRY)
     _data[200000] = {7.818269353};
     _data[300000] = {5.120443626};
@@ -236,6 +251,8 @@ FunctionToFit::FunctionToFit()
     _data[1800000] = {0.836829923};
     _data[1900000] = {0.793176849};
     _data[2000000] = {0.754088207};
+
+    double smallest_exec_time_big = 0.754088207;
 #elif defined(EXEC_BIG_HASH)
     _data[200000] = {6.62707712};
     _data[300000] = {4.34057771};
@@ -256,6 +273,8 @@ FunctionToFit::FunctionToFit()
     _data[1800000] = {0.726488089};
     _data[1900000] = {0.689635208};
     _data[2000000] = {0.656942014};
+
+    double smallest_exec_time_big = 0.656942014;
 #elif defined(EXEC_CACHEKILLER)
   // cachekiller_perf.sh
   _data[200000] = {1.220887347, 8319726.652061044};
@@ -559,6 +578,10 @@ FunctionToFit::FunctionToFit()
   _constraints.push_back(std::make_pair(0, 1));
   */
 #if EXEC_WL
+
+    for (auto &d : _data)
+        _data[d.first][0] = d.second[0] / smallest_exec_time_big;
+
     _constraints.push_back(std::make_pair(0, 10000000000));
     _constraints.push_back(std::make_pair(0, 10000000000));
     _constraints.push_back(std::make_pair(0, 10000000000));
