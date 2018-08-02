@@ -37,7 +37,7 @@ long double error_max_relative(const std::vector<std::pair<T, T> > &s)
   long double value;
 
   for (const auto &e : s) {
-    value = abs(e.first - e.second);
+    value = abs((e.first - e.second) / e.second);
 
     if (value > max)
       max = value;
