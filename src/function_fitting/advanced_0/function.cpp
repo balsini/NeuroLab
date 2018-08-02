@@ -23,23 +23,23 @@ FunctionToFit::FunctionToFit()
 //#define POW_IDLE_BIG
 
 //#define POW_BIG_CACHE
-//#define POW_BIG_GZIP2
+//#define POW_BIG_BZIP2
 //#define POW_BIG_ENCRY
 //#define POW_BIG_DECRY
 //#define POW_BIG_HASH
 
 //#define POW_LITTLE_CACHE
-//#define POW_LITTLE_GZIP2
+//define POW_LITTLE_BZIP2
 //#define POW_LITTLE_ENCRY
 //#define POW_LITTLE_DECRY
 #define POW_LITTLE_HASH
 
-#define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_GZIP2) || \
+#define POW_BIG_WL (defined(POW_BIG_CACHE)|| defined(POW_BIG_BZIP2) || \
     defined(POW_BIG_DECRY) || defined(POW_BIG_ENCRY) || defined(POW_BIG_HASH))
 
 #define POW_BIG_ANY (defined(POW_IDLE_BIG) || POW_BIG_WL)
 
-#define POW_LITTLE_WL (defined(POW_LITTLE_CACHE) || defined(POW_LITTLE_GZIP2) || \
+#define POW_LITTLE_WL (defined(POW_LITTLE_CACHE) || defined(POW_LITTLE_BZIP2) || \
     defined(POW_LITTLE_DECRY) || defined(POW_LITTLE_ENCRY) || defined(POW_LITTLE_HASH))
 
 #define POW_LITTLE_ANY (defined(POW_IDLE_LITTLE) || POW_LITTLE_WL)
@@ -339,7 +339,7 @@ FunctionToFit::FunctionToFit()
   _data[1900000] = {0.790822247, 1246644.241155244};
   _data[2000000] = {0.754319393, 1445045.706255626};  
 
-#elif defined(POW_BIG_GZIP2)
+#elif defined(POW_BIG_BZIP2)
     /* frequency -> power WL */
     _data[200000] = {0.1861451190184049};
     _data[300000] = {0.22988578332145404};
@@ -499,7 +499,7 @@ FunctionToFit::FunctionToFit()
     _data[1300000] = {0.3170286237113403};
     _data[1400000] = {0.3807648222222222};
 
-#elif defined(POW_LITTLE_GZIP2)
+#elif defined(POW_LITTLE_BZIP2)
     /* frequency -> power WL */
     _data[200000] = {0.031198151705276702};
     _data[300000] = {0.04128960207300585};
@@ -647,7 +647,7 @@ long double FunctionToFit::evaluate(const long double &x,
   // The "Full" model, instead, estimates the parameters of the power consumption formula, on a single
   // expression, without considering the Pidle.
   //
-  // Solution GZIP2
+  // Solution BZIP2
   //<dist, eta, gamma, Kw>
   // 0.00829219 87.1105 53.1254 2.92188e-9 // Delta Model
   // 0.0721914 101.4 142.631 2.547e-9 // Full
@@ -688,7 +688,7 @@ long double FunctionToFit::evaluate(const long double &x,
   std::vector<double> idle_sol_little = {0.000383117, 0.00884979, 64.8351, 8.15464e-10};
 
 
-  // Solution GZIP2
+  // Solution BZIP2
   // 0.00532092 99.0716 1.4549 7.65224e-10 // Delta Model
   // 8.15795e-6 296.934 114.496 3.35267e-10 // Full
   //
